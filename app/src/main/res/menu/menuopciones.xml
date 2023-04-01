@@ -10,7 +10,7 @@
         android:title="Compartir" />
     <item
         android:id="@+id/guardar"
-        android:icon="@drawable/icons8_save_60"
-        app:showAsAction="always"
-        android:title="TODO" />
+        android:icon="@drawable/icons8_save_50"
+        android:title="TODO"
+        app:showAsAction="always" />
 </menu>
