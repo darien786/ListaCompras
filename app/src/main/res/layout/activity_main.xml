@@ -5,6 +5,7 @@
     android:id="@+id/drawer1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:scrollbars="vertical"
     tools:context=".MainActivity"
     tools:menu="@menu/menuopciones">
 
@@ -19,21 +20,27 @@
             android:layout_height="wrap_content"
             android:background="?attr/colorPrimary"
             android:minHeight="?attr/actionBarSize"
+            android:paddingStart="10dp"
+            android:paddingLeft="20dp"
+            android:paddingEnd="10dp"
+            android:paddingRight="20sp"
             android:theme="?attr/actionBarTheme"
+            android:touchscreenBlocksFocus="false"
+            android:transitionGroup="false"
             app:menu="@menu/menuopciones" />
 
         <FrameLayout
             android:layout_width="225dp"
             android:layout_height="758dp"
-            android:layout_weight="1">
-
-        </FrameLayout>
+            android:layout_weight="1" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:itemIconSize="27dp"
-            app:menu="@menu/navegaciones" />
+            app:menu="@menu/navegaciones">
+
+        </com.google.android.material.bottomnavigation.BottomNavigationView>
 
     </LinearLayout>
 
@@ -43,4 +50,5 @@
         android:layout_height="match_parent"
         android:layout_gravity="start|left"
         app:menu="@menu/menu1" />
+
 </androidx.drawerlayout.widget.DrawerLayout>
