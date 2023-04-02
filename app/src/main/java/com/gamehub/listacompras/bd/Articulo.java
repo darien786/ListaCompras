@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
-public class Articulo extends SQLiteOpenHelper {
+public class Articulo extends SQLiteOpenHelper{
 
     protected String Nombre;
     protected float precio;
@@ -14,17 +14,6 @@ public class Articulo extends SQLiteOpenHelper {
 
     public Articulo(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
-    }
-
-
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-
-    }
-
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
     }
 
     public String getNombre() {
@@ -51,4 +40,13 @@ public class Articulo extends SQLiteOpenHelper {
         this.precio = precio;
     }
 
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
+    }
 }
