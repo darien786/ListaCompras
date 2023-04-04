@@ -7,7 +7,14 @@
     android:layout_height="match_parent"
     android:scrollbars="vertical"
     tools:context=".MainActivity"
-    tools:menu="@menu/menuopciones">
+    >
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,54 +26,31 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/colorPrimary"
-            android:minHeight="?attr/actionBarSize"
             android:paddingStart="10dp"
             android:paddingLeft="20dp"
             android:paddingEnd="10dp"
             android:paddingRight="20sp"
-            android:theme="?attr/actionBarTheme"
-            android:touchscreenBlocksFocus="false"
-            android:transitionGroup="false"
-            app:menu="@menu/menuopciones" />
+            android:visibility="visible"
+            app:menu="@menu/menuopciones"
+            tools:ignore="MissingConstraints" />
 
         <FrameLayout
-            android:layout_width="225dp"
-            android:layout_height="758dp"
-            android:layout_weight="1" >
+            android:id="@+id/frame1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
 
         </FrameLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/botonBar"
             android:layout_width="match_parent"
-            android:layout_height="784dp">
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            app:itemIconSize="27dp"
+            app:menu="@menu/navegaciones">
 
-            <com.google.android.material.bottomnavigation.BottomNavigationView
-                android:id="@+id/bottomNavigationView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:itemIconSize="27dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:menu="@menu/navegaciones">
-
-            </com.google.android.material.bottomnavigation.BottomNavigationView>
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/floatingActionButton3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="56dp"
-                android:clickable="true"
-                android:contentDescription="@string/bottom_sheet_behavior"
-                app:backgroundTint="#009688"
-                app:fabSize="auto"
-                app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.91"
-                app:layout_constraintStart_toStartOf="parent"
-                app:srcCompat="@android:drawable/ic_input_add" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.bottomnavigation.BottomNavigationView>
 
     </LinearLayout>
 
@@ -74,7 +58,8 @@
         android:id="@+id/navegation1"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_gravity="start|left"
+        android:layout_gravity="start"
         app:menu="@menu/menu1" />
+
 
 </androidx.drawerlayout.widget.DrawerLayout>
