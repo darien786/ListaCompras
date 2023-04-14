@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
@@ -38,15 +39,21 @@ public class MainActivity extends AppCompatActivity {
         botonNavegation = findViewById(R.id.botonBar);
         tb1 = findViewById(R.id.toolbar1);
 
+        setSupportActionBar(tb1);
+        getSupportFragmentManager().beginTransaction().add(R.id.frame1, new fragmentoListas()).commit();
 
         drawerToggle = new ActionBarDrawerToggle(this, dLayout1, tb1, 0,0);
         dLayout1.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
 
 
-        setSupportActionBar(tb1);
 
-        getSupportFragmentManager().beginTransaction().add(R.id.frame1, new fragmentoListas()).commit();
+        navigationView1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
         botonNavegation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -66,12 +73,13 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menuopciones, menu);
-
 
         MenuItem item = menu.findItem(R.id.spinner);
         Spinner spinner = (Spinner) item.getActionView();
