@@ -52,11 +52,13 @@ public class MainActivity extends AppCompatActivity {
                 switch (item.getItemId()){
 
                     case R.id.listas:
-                        Intent ventana = new Intent(MainActivity.this, menuListas.class);
-                        startActivity(ventana);
+                        Intent ventanaListas = new Intent(MainActivity.this, menuListas.class);
+                        startActivity(ventanaListas);
                         return true;
 
-                    case R.id.menuConfiguracion:
+                    case R.id.configuracionMenu:
+                        Intent ventanaConfiguracion = new Intent(MainActivity.this, menuConfiguracion.class);
+                        startActivity(ventanaConfiguracion);
                        return true;
                 }
 

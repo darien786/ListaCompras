@@ -6,7 +6,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
@@ -27,6 +27,8 @@ public class menuListas extends AppCompatActivity {
         setContentView(R.layout.activity_menu_listas);
         dLayout1 = findViewById(R.id.drawerListas);
         tb1 = findViewById(R.id.tolListas);
+
+        setSupportActionBar(tb1);
 
 
 

@@ -2,11 +2,10 @@
 <androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/drawerListas"
+    android:id="@+id/drawerConfiguracion"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:scrollbars="vertical"
-    tools:context=".menuListas">
+    tools:context=".menuConfiguracion">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,7 +13,7 @@
         android:orientation="vertical">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/tolListas"
+            android:id="@+id/toolbarConfiguracion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/colorPrimary"
@@ -22,8 +21,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:navigationIcon="?attr/homeAsUpIndicator"
-            app:title="Listas"
-            tools:ignore="MissingConstraints" />
+            app:title="Configuración"
+            tools:ignore="MissingConstraints"/>
     </LinearLayout>
-
 </androidx.drawerlayout.widget.DrawerLayout>

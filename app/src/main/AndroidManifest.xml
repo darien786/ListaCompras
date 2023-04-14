@@ -12,9 +12,6 @@
         android:theme="@style/Theme.ListaCompras"
         tools:targetApi="31">
         <activity
-            android:name=".menuListas"
-            android:exported="false" />
-        <activity
             android:name=".MainActivity"
             android:exported="true"
             android:theme="@style/Theme.Appp">
@@ -24,6 +21,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".menuConfiguracion"
+            android:exported="false"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".menuListas"
+            android:exported="false"
+            android:parentActivityName=".MainActivity" />
 
         <meta-data
             android:name="preloaded_fonts"
