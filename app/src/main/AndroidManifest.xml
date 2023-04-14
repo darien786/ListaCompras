@@ -12,6 +12,9 @@
         android:theme="@style/Theme.ListaCompras"
         tools:targetApi="31">
         <activity
+            android:name=".menuListas"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true"
             android:theme="@style/Theme.Appp">

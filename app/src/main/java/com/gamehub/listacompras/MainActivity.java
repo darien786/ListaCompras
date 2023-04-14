@@ -46,14 +46,26 @@ public class MainActivity extends AppCompatActivity {
         dLayout1.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
 
-
-
-        navigationView1.setOnClickListener(new View.OnClickListener() {
+        navigationView1.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onClick(View v) {
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
 
+                    case R.id.listas:
+                        Intent ventana = new Intent(MainActivity.this, menuListas.class);
+                        startActivity(ventana);
+                        return true;
+
+                    case R.id.menuConfiguracion:
+                       return true;
+                }
+
+
+
+                return false;
             }
         });
+
 
         botonNavegation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
