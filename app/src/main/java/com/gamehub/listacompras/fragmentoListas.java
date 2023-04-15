@@ -1,5 +1,7 @@
 package com.gamehub.listacompras;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,6 +9,8 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -55,12 +59,26 @@ public class fragmentoListas extends Fragment {
         }
     }
 
+    private FloatingActionButton agregar_articulo;
+    @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         ((MainActivity) getActivity()).getSupportActionBar().show();
+
+        View view = inflater.inflate(R.layout.fragment_fragmento_listas,container,false);
+
+        agregar_articulo = view.findViewById(R.id.btn_AgregarArticulo);
+        agregar_articulo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent ventanaAgregar = new Intent(getActivity(),agregarArticulo.class);
+                startActivity(ventanaAgregar);
+            }
+        });
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_fragmento_listas, container, false);
+        return view;
     }
 }

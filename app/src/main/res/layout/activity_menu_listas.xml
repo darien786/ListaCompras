@@ -25,6 +25,27 @@
             app:navigationIcon="?attr/homeAsUpIndicator"
             app:title="Listas"
             tools:ignore="MissingConstraints" />
+
+        <FrameLayout
+            android:id="@+id/frameListas"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/btn_AgregarLista"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="73dp"
+                android:src="@drawable/baseline_add_24"
+                app:backgroundTint="#00796B"
+                app:layout_anchorGravity="bottom"
+                tools:ignore="SpeakableTextPresentCheck" />
+        </FrameLayout>
+
     </LinearLayout>
 
 </androidx.drawerlayout.widget.DrawerLayout>

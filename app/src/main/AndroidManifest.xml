@@ -12,10 +12,14 @@
         android:theme="@style/Theme.ListaCompras"
         tools:targetApi="31">
         <activity
-            android:name=".menuCategorias"
+            android:name=".agregarArticulo"
             android:exported="false"
             android:parentActivityName=".MainActivity"
             />
+        <activity
+            android:name=".menuCategorias"
+            android:exported="false"
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
