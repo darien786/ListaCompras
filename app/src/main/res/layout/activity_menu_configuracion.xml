@@ -5,6 +5,7 @@
     android:id="@+id/drawerConfiguracion"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:scrollbars="vertical"
     tools:context=".menuConfiguracion">
 
     <LinearLayout
@@ -17,11 +18,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/colorPrimary"
+            app:collapseIcon="?attr/homeAsUpIndicator"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:navigationIcon="?attr/homeAsUpIndicator"
             app:title="Configuración"
-            tools:ignore="MissingConstraints"/>
+            tools:ignore="MissingConstraints" />
     </LinearLayout>
 </androidx.drawerlayout.widget.DrawerLayout>

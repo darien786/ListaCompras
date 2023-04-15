@@ -18,7 +18,7 @@
         android:title="">
         <menu>
             <item
-                android:id="@+id/configuracionMenu"
+                android:id="@+id/configuration"
                 android:icon="@drawable/icons8_settings_50"
                 android:title="Configuración" />
         </menu>

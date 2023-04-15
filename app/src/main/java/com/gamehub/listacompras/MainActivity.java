@@ -5,15 +5,11 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -56,12 +52,16 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(ventanaListas);
                         return true;
 
-                    case R.id.configuracionMenu:
+                    case R.id.configuration:
                         Intent ventanaConfiguracion = new Intent(MainActivity.this, menuConfiguracion.class);
                         startActivity(ventanaConfiguracion);
                        return true;
-                }
 
+                    case R.id.categoria:
+                        Intent ventanaCategoria = new Intent(MainActivity.this, menuCategorias.class);
+                        startActivity(ventanaCategoria);
+                        return true;
+                }
 
 
                 return false;
