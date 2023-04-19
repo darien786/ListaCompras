@@ -7,11 +7,14 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.Spinner;
 
 public class agregarArticulo extends AppCompatActivity {
 
     protected Toolbar toolArticulo;
+    protected EditText agregar_nombre;
+
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -23,12 +26,11 @@ public class agregarArticulo extends AppCompatActivity {
         setSupportActionBar(toolArticulo);
 
 
+
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_aceptar_agregar_articulo, menu);
-
-
 
         return true;
     }
