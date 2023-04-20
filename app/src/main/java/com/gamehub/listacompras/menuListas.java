@@ -1,25 +1,26 @@
 package com.gamehub.listacompras;
 
-import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.annotation.SuppressLint;
-import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.EditText;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.gamehub.listacompras.bd.AdminSQLite;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.navigation.NavigationView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class menuListas extends AppCompatActivity {
 
@@ -29,6 +30,8 @@ public class menuListas extends AppCompatActivity {
     protected TextView pruebas;
 
     protected int foto = R.drawable.menus_de_listas;
+    protected RecyclerView listas;
+    protected List<String> lista;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +39,7 @@ public class menuListas extends AppCompatActivity {
         setContentView(R.layout.activity_menu_listas);
         tb1 = findViewById(R.id.tolListas);
         btn_AgregarListas = findViewById(R.id.btn_AgregarLista);
-
-
+        listas = findViewById(R.id.id_listas);
         setSupportActionBar(tb1);
 
         btn_AgregarListas.setOnClickListener(new View.OnClickListener() {
@@ -48,21 +50,55 @@ public class menuListas extends AppCompatActivity {
             }
         });
 
+        LinearLayoutManager linearManayer = new LinearLayoutManager(this);
+        listas.setLayoutManager(linearManayer);
+        listas.setAdapter(new AdaptadorListas());
+
 
         AdminSQLite baseCompras = new AdminSQLite(getBaseContext());
         SQLiteDatabase db  = baseCompras.getWritableDatabase();
 
-
-        String cadena = "";
-        ContentValues value = new ContentValues();
+        lista = new ArrayList<String>();
         String[] projection = {"Nombre"};
         Cursor vistas = db.query("Lista", projection,null,null,null,null,null);
         while(vistas.moveToNext()){
             String nombre = vistas.getString(vistas.getColumnIndexOrThrow("Nombre"));
-            cadena += nombre + "\n";
-            pruebas.setText(cadena);
+            lista.add(nombre);
         }
-        vistas.close();
+    }
+
+
+    private class AdaptadorListas extends RecyclerView.Adapter<AdaptadorListas.AdaptadorListasHolder> {
+
+
+        @NonNull
+        @Override
+        public AdaptadorListas.AdaptadorListasHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            return new AdaptadorListas.AdaptadorListasHolder(getLayoutInflater().inflate(R.layout.item_lista, parent, false));
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull AdaptadorListas.AdaptadorListasHolder holder, int position) {
+            holder.imprimir(position);
+        }
+
+        @Override
+        public int getItemCount() {
+            return lista.size();
+        }
+
+        private class AdaptadorListasHolder extends RecyclerView.ViewHolder{
+            protected TextView nombre_categoria;
+
+            public AdaptadorListasHolder(@NonNull View itemView) {
+                super(itemView);
+                nombre_categoria = itemView.findViewById(R.id.itemValorLista);
+            }
+
+            public void imprimir(int position) {
+                nombre_categoria.setText(lista.get(position));
+            }
+        }
     }
 
 }

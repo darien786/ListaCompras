@@ -53,8 +53,9 @@ public class agregarListas extends AppCompatActivity {
                 db.insert("Lista", null, values);
                 finish();
                 return true;
+            default:
+                finish();
+                return true;
         }
-
-        return true;
     }
 }
