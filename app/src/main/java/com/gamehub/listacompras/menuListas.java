@@ -65,6 +65,7 @@ public class menuListas extends AppCompatActivity {
             String nombre = vistas.getString(vistas.getColumnIndexOrThrow("Nombre"));
             lista.add(nombre);
         }
+        vistas.close();
     }
 
 

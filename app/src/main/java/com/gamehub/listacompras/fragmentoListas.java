@@ -2,6 +2,8 @@ package com.gamehub.listacompras;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -10,7 +12,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.gamehub.listacompras.bd.AdminSQLite;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -78,7 +84,10 @@ public class fragmentoListas extends Fragment {
             }
         });
 
+
         // Inflate the layout for this fragment
         return view;
     }
+
+
 }

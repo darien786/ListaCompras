@@ -132,6 +132,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:minHeight="60dp"
+                    android:spinnerStyle="@style/SpinnerStyle"
                     tools:ignore="SpeakableTextPresentCheck" />
 
                 <TextView
@@ -148,7 +149,8 @@
                     android:textSize="19dp" />
 
                 <Spinner
-                    android:id="@+id/spinner4"
+                    android:id="@+id/datos_categorias"
+                    style="@android:style/Widget.DeviceDefault.Light.Spinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:minHeight="60dp"
