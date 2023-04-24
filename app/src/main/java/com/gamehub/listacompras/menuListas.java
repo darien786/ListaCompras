@@ -24,14 +24,13 @@ import java.util.List;
 
 public class menuListas extends AppCompatActivity {
 
-
     private Toolbar tb1;
     private FloatingActionButton btn_AgregarListas;
-    protected TextView pruebas;
 
     protected int foto = R.drawable.menus_de_listas;
     protected RecyclerView listas;
     protected List<String> lista;
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +53,6 @@ public class menuListas extends AppCompatActivity {
         listas.setLayoutManager(linearManayer);
         listas.setAdapter(new AdaptadorListas());
 
-
         AdminSQLite baseCompras = new AdminSQLite(getBaseContext());
         SQLiteDatabase db  = baseCompras.getWritableDatabase();
 
@@ -66,10 +64,12 @@ public class menuListas extends AppCompatActivity {
             lista.add(nombre);
         }
         vistas.close();
+
+
     }
 
 
-    private class AdaptadorListas extends RecyclerView.Adapter<AdaptadorListas.AdaptadorListasHolder> {
+    protected class AdaptadorListas extends RecyclerView.Adapter<AdaptadorListas.AdaptadorListasHolder> {
 
 
         @NonNull
@@ -87,6 +87,7 @@ public class menuListas extends AppCompatActivity {
         public int getItemCount() {
             return lista.size();
         }
+
 
         private class AdaptadorListasHolder extends RecyclerView.ViewHolder{
             protected TextView nombre_categoria;

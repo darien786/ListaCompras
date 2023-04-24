@@ -2,6 +2,7 @@ package com.gamehub.listacompras;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
@@ -18,6 +19,8 @@ public class agregarCategoria extends AppCompatActivity {
 
     private Toolbar toolbar_agregar_categoria;
     protected EditText agregar_nombre;
+    protected RecyclerView categorias;
+
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -52,6 +55,8 @@ public class agregarCategoria extends AppCompatActivity {
                 values.put("Nombre", agregar_nombre.getText().toString());
                 db.insert("Categoria", null, values);
                 finish();
+
+
                 return true;
 
             default:

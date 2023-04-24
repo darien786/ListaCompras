@@ -53,7 +53,8 @@ public class agregarArticulo extends AppCompatActivity {
 
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_aceptar_agregar_articulo, menu);
-
         return true;
     }
+
+
 }

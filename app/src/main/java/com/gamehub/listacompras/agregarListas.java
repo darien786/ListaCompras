@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
@@ -12,8 +13,13 @@ import android.view.MenuItem;
 import android.widget.EditText;
 
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.gamehub.listacompras.bd.AdminSQLite;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class agregarListas extends AppCompatActivity {
 
@@ -45,12 +51,14 @@ public class agregarListas extends AppCompatActivity {
             case R.id.aceptarAgregarLista:
                 agregar_nombre = (EditText) findViewById(R.id.id_nombre_lista);
 
+
                 AdminSQLite baseCompras = new AdminSQLite(getBaseContext());
                 SQLiteDatabase db  = baseCompras.getWritableDatabase();
 
                 ContentValues values = new ContentValues();
                 values.put("Nombre", agregar_nombre.getText().toString());
                 db.insert("Lista", null, values);
+
                 finish();
                 return true;
             default:
