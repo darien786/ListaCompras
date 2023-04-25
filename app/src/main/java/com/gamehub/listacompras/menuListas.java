@@ -50,13 +50,26 @@ public class menuListas extends AppCompatActivity {
         });
 
         LinearLayoutManager linearManayer = new LinearLayoutManager(this);
+        AdaptadorListas adapter = new AdaptadorListas();
         listas.setLayoutManager(linearManayer);
-        listas.setAdapter(new AdaptadorListas());
+        listas.setAdapter(adapter);
+
+        lista = new ArrayList<String>();
+
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        actualizarDatos();
+    }
+
+    private void actualizarDatos(){
+        lista.clear();
 
         AdminSQLite baseCompras = new AdminSQLite(getBaseContext());
         SQLiteDatabase db  = baseCompras.getWritableDatabase();
 
-        lista = new ArrayList<String>();
         String[] projection = {"Nombre"};
         Cursor vistas = db.query("Lista", projection,null,null,null,null,null);
         while(vistas.moveToNext()){
@@ -65,7 +78,9 @@ public class menuListas extends AppCompatActivity {
         }
         vistas.close();
 
-
+        if(listas.getAdapter() != null){
+            listas.getAdapter().notifyDataSetChanged();
+        }
     }
 
 

@@ -49,25 +49,46 @@ public class menuCategorias extends AppCompatActivity {
             }
         });
 
+
+
+        categoria = new ArrayList<String>();
+
         LinearLayoutManager linearManayer = new LinearLayoutManager(this);
+        AdaptadorCategorias adapter = new AdaptadorCategorias();
+
         categorias.setLayoutManager(linearManayer);
-        categorias.setAdapter(new AdaptadorCategorias());
+        categorias.setAdapter(adapter);
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        actualizarDatos();
+    }
+
+    private void actualizarDatos(){
+        categoria.clear();
 
         AdminSQLite baseCompras = new AdminSQLite(getBaseContext());
         SQLiteDatabase db  = baseCompras.getWritableDatabase();
 
-        categoria = new ArrayList<String>();
         String[] projection = {"Nombre"};
         Cursor vistas = db.query("Categoria", projection,null,null,null,null,null);
         while(vistas.moveToNext()){
             String nombre = vistas.getString(vistas.getColumnIndexOrThrow("Nombre"));
             categoria.add(nombre);
+
         }
         vistas.close();
+
+        if(categorias.getAdapter() != null){
+            categorias.getAdapter().notifyDataSetChanged();
+        }
     }
 
-    private class AdaptadorCategorias extends RecyclerView.Adapter<AdaptadorCategorias.AdaptadorCategoriasHolder> {
 
+    private class AdaptadorCategorias extends RecyclerView.Adapter<AdaptadorCategorias.AdaptadorCategoriasHolder> {
 
         @NonNull
         @Override
