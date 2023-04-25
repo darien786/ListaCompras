@@ -79,13 +79,12 @@ public class fragmentoListas extends Fragment {
         agregar_articulo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent ventanaAgregar = new Intent(getActivity(),agregarArticulo.class);
                 startActivity(ventanaAgregar);
 
-
             }
         });
-
 
         // Inflate the layout for this fragment
         return view;
