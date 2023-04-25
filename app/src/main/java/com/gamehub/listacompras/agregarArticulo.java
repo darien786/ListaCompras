@@ -22,6 +22,7 @@ public class agregarArticulo extends AppCompatActivity {
     protected Toolbar toolArticulo;
     protected EditText agregar_nombre;
     protected Spinner categorias;
+    protected Spinner unidad;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -29,6 +30,7 @@ public class agregarArticulo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agregar_articulo);
         categorias = (Spinner) findViewById(R.id.datos_categorias);
+        unidad = (Spinner) findViewById(R.id.id_unidad_medida);
         toolArticulo = findViewById(R.id.toolbarArticulo);
         setSupportActionBar(toolArticulo);
 
@@ -44,10 +46,22 @@ public class agregarArticulo extends AppCompatActivity {
         }
         vistas.close();
 
-
         ArrayAdapter <String> adapter = new ArrayAdapter <String> (this, android.R.layout.simple_spinner_item, lista);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         categorias.setAdapter(adapter);
+
+        List<String> unidades = new ArrayList<>();
+        String [] proyeccion = {"Nombre"};
+        Cursor vistasUnidad = db.query("Unidad",proyeccion,null,null,null,null,null);
+        while (vistasUnidad.moveToNext()){
+            String nombre = vistasUnidad.getString(vistasUnidad.getColumnIndexOrThrow("Nombre"));
+            unidades.add(nombre);
+        }
+        vistasUnidad.close();
+
+        ArrayAdapter <String> adapter2 = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,lista);
+        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        unidad.setAdapter(adapter2);
 
     }
 

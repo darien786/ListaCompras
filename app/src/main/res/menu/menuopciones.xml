@@ -14,7 +14,6 @@
 
     <item
         android:id="@+id/spinner"
-        android:background="#ff00"
         android:title="Mi Lista"
         app:actionViewClass="android.widget.Spinner"
         app:showAsAction="always" />

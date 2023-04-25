@@ -12,6 +12,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.gamehub.listacompras.bd.AdminSQLite;
@@ -28,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
     private NavigationView navigationView1;
     private BottomNavigationView botonNavegation;
     private Toolbar tb1;
-
 
 
     @Override
@@ -104,6 +104,23 @@ public class MainActivity extends AppCompatActivity {
 
         MenuItem item = menu.findItem(R.id.spinner);
         Spinner spinner = (Spinner) item.getActionView();
+
+        AdminSQLite database = new AdminSQLite(getBaseContext());
+        SQLiteDatabase db = database.getReadableDatabase();
+
+        List<String> categorias = new ArrayList<>();
+        String [] projection = {"Nombre"};
+        Cursor vista = db.query("Lista",projection,null,null,null,null,null);
+        while(vista.moveToNext()){
+            String nombre = vista.getString(vista.getColumnIndexOrThrow("Nombre"));
+            categorias.add(nombre);
+        }
+        vista.close();
+
+        ArrayAdapter <String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item,categorias);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+
 
         return true;
     }

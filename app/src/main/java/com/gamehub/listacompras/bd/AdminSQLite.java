@@ -47,15 +47,37 @@ public class AdminSQLite extends SQLiteOpenHelper {
                 " FOREIGN KEY (id_Lista) REFERENCES Lista(id_Lista)," +
                 " FOREIGN KEY (id_Articulo) REFERENCES Articulo(id_Articulo))");
 
+
+        //Insertar datos por defecto
+        db.execSQL("INSERT INTO Lista(Nombre) VALUES('Mi Lista')");
+
+        db.execSQL("INSERT INTO Lista(Nombre) VALUES('Mi Lista2')");
+
+
+        //INSERTAR DATOS POR DEFECTO DE LA TABLA UNIDAD DE MEDIDA
+
+        db.execSQL("INSERT INTO Unidad(Nombre) VALUES('un')");
+
+        db.execSQL("INSERT INTO Unidad(Nombre) VALUES('kg')");
+
+        db.execSQL("INSERT INTO Unidad(Nombre) VALUES('g')");
+
+        db.execSQL("INSERT INTO Unidad(Nombre) VALUES('ml')");
+
+        db.execSQL("INSERT INTO Unidad(Nombre) VALUES('l')");
+
+
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("INSERT INTO Lista(Nombre) Values('Mi Lista');");
 
-        db.execSQL("INSERT INTO Lista(Nombre) Values('Mi Lista2');");
+        db.execSQL("DROP TABLE Lista");
+
+        db.execSQL("DROP TABLE Categoria");
+
+        db.execSQL("DROP TABLE Unidad");
 
         onCreate(db);
-
     }
 }
