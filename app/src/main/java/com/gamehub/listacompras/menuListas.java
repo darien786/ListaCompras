@@ -55,7 +55,6 @@ public class menuListas extends AppCompatActivity {
         listas.setAdapter(adapter);
 
         lista = new ArrayList<String>();
-
     }
 
     @Override
