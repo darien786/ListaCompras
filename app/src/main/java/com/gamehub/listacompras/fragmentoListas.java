@@ -81,6 +81,8 @@ public class fragmentoListas extends Fragment {
             public void onClick(View v) {
                 Intent ventanaAgregar = new Intent(getActivity(),agregarArticulo.class);
                 startActivity(ventanaAgregar);
+
+
             }
         });
 
