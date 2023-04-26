@@ -66,7 +66,19 @@ public class AdminSQLite extends SQLiteOpenHelper {
 
         db.execSQL("INSERT INTO Unidad(Nombre) VALUES('l')");
 
+        //INSERTAR DATOS POR DEFECTO DE LA TABLA CATEGORÍAS
 
+        db.execSQL("INSERT INTO Categoria(Nombre) VALUES('Frutas')");
+
+        db.execSQL("INSERT INTO Categoria(Nombre) VALUES('Verduras')");
+
+        db.execSQL("INSERT INTO Categoria(Nombre) VALUES('Leguminosas')");
+
+        db.execSQL("INSERT INTO Categoria(Nombre) VALUES('Alimentos de origen animal')");
+
+        db.execSQL("INSERT INTO Categoria(Nombre) VALUES('Cereales')");
+
+        db.execSQL("INSERT INTO Categoria(Nombre) VALUES('Sin categoría')");
     }
 
     @Override

@@ -59,7 +59,7 @@ public class agregarArticulo extends AppCompatActivity {
         }
         vistasUnidad.close();
 
-        ArrayAdapter <String> adapter2 = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,lista);
+        ArrayAdapter <String> adapter2 = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,unidades);
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         unidad.setAdapter(adapter2);
 
