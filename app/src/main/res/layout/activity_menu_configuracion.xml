@@ -25,5 +25,10 @@
             app:navigationIcon="?attr/homeAsUpIndicator"
             app:title="Configuración"
             tools:ignore="MissingConstraints" />
+
+        <FrameLayout
+            android:id="@+id/frameConfiguracion"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
     </LinearLayout>
 </androidx.drawerlayout.widget.DrawerLayout>

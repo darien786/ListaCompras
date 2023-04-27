@@ -20,6 +20,8 @@ import android.widget.TextView;
 import com.gamehub.listacompras.bd.AdminSQLite;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,6 +74,7 @@ public class fragmentoListas extends Fragment {
 
     protected FloatingActionButton agregar_articulo;
     protected ListView mostrar_articulos;
+    protected TextView total;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -95,6 +98,7 @@ public class fragmentoListas extends Fragment {
 
 
         mostrar_articulos = view.findViewById(R.id.mostrar_articulos_list);
+        total = view.findViewById(R.id.id_Total_Lista);
 
         actualizarDatos();
         // Inflate the layout for this fragment
@@ -109,10 +113,13 @@ public class fragmentoListas extends Fragment {
 
     protected void actualizarDatos(){
 
+
         AdminSQLite adminSQLite = new AdminSQLite(getContext());
         SQLiteDatabase db = adminSQLite.getReadableDatabase();
 
-        List<String> articulos = new ArrayList<String>();
+        List<Articulo> articulos = new ArrayList<>();
+
+        int totalLista = 0,multiplicador;
 
         Cursor vista = db.query("Articulo", null,null,null,null,null,null);
         while(vista.moveToNext()){
@@ -123,67 +130,60 @@ public class fragmentoListas extends Fragment {
             String unidad = vista.getString(vista.getColumnIndexOrThrow("Nombre_Unidad"));
             String categoria = vista.getString(vista.getColumnIndexOrThrow("Nombre_Categoria"));
 
-            //String mostrar = "-" + nombre + "-" + cantidad + "-"+precio+"-"+unidad+"-"+categoria;
+            articulos.add(new Articulo(nombre,cantidad,precio,unidad,categoria));
 
-            articulos.add(nombre+cantidad+precio+unidad+categoria);
+            int cantidadEntero = Integer.parseInt(cantidad);
+            int precioFloat = Integer.parseInt(precio);
+
+            multiplicador = precioFloat * cantidadEntero;
+            totalLista += multiplicador;
         }
 
         vista.close();
 
-        //MyAdapter adapter = new MyAdapter( getActivity(), R.layout.item_articulo,articulos);
+        total.setText("Total: $" + totalLista);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1,articulos);
+        MyAdapter adapter = new MyAdapter( getActivity(),articulos);
+        //ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1,articulos);
         mostrar_articulos.setAdapter(adapter);
 
 
     }
 
-    /*
-    protected class MyAdapter extends BaseAdapter {
+
+    protected class MyAdapter extends ArrayAdapter<Articulo> {
 
         private Context context;
         private int layout;
         private ArrayList<String> names;
 
-        public MyAdapter(Context context, int layout, ArrayList<String> names) {
-            this.context = context;
-            this.layout = layout;
-            this.names = names;
-        }
-
-        @Override
-        public int getCount() {
-            return this.names.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return this.names.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
+        public MyAdapter(Context context, List<Articulo> articulos) {
+            super(context,0,articulos);
         }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            View v = convertView;
+            Articulo articulo = getItem(position);
 
-            LayoutInflater layoutInflater = LayoutInflater.from(this.context);
+            if(convertView == null){
+                convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_articulo,parent,false);
+            }
 
-            v = layoutInflater.inflate(R.layout.item_categoria, null);
+            TextView nombre = convertView.findViewById(R.id.id_valor_articulo);
+            TextView id_datos = convertView.findViewById(R.id.id_mas_datos);
 
-            String currentName = names.get(position);
+            String datos = articulo.getCantidad() + " "
+                    + articulo.getUnidad() + " = $"
+                    + articulo.getPrecio();
 
-            TextView nombre = (TextView) v.findViewById(R.id.id_nombre_articulo);
-            nombre.setText(currentName);
+            nombre.setText(articulo.getNombre());
+            id_datos.setText(datos);
 
-            return v;
+            return convertView;
         }
-    }*/
+    }
 
-    /*protected class Articulo {
+    protected class Articulo{
         protected String nombre;
         protected String cantidad;
         protected String precio;
@@ -234,8 +234,7 @@ public class fragmentoListas extends Fragment {
         public String getCategoria(){
             return categoria;
         }
-
-    }*/
+    }
 
 }
 

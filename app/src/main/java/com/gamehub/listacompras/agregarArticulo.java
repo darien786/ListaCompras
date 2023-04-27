@@ -101,6 +101,7 @@ public class agregarArticulo extends AppCompatActivity {
 
                 db.insert("Articulo",null, values);
 
+
                 finish();
                 return true;
 

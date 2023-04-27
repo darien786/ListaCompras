@@ -63,12 +63,9 @@ public class fragmentoCalculadora extends Fragment {
         ((MainActivity) getActivity()).getSupportActionBar().hide();
 
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_fragmento_calculadora, container, false);
+        View view = inflater.inflate(R.layout.fragment_fragmento_calculadora, container, false);
 
-
+        return view;
     }
 
-    public void numeroPresionado(String digito){
-
-    }
 }
