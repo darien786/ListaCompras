@@ -7,12 +7,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.gamehub.listacompras.bd.AdminSQLite;
@@ -26,8 +31,7 @@ public class menuCategorias extends AppCompatActivity {
     private Toolbar tb2;
 
     private FloatingActionButton btn_AgregarCategoria;
-    protected RecyclerView categorias;
-    protected List<String> categoria;
+    protected ListView categorias;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -49,15 +53,7 @@ public class menuCategorias extends AppCompatActivity {
             }
         });
 
-
-
-        categoria = new ArrayList<String>();
-
-        LinearLayoutManager linearManayer = new LinearLayoutManager(this);
-        AdaptadorCategorias adapter = new AdaptadorCategorias();
-
-        categorias.setLayoutManager(linearManayer);
-        categorias.setAdapter(adapter);
+        actualizarDatos();
 
     }
 
@@ -68,10 +64,11 @@ public class menuCategorias extends AppCompatActivity {
     }
 
     private void actualizarDatos(){
-        categoria.clear();
 
         AdminSQLite baseCompras = new AdminSQLite(getBaseContext());
         SQLiteDatabase db  = baseCompras.getWritableDatabase();
+
+        ArrayList<String> categoria = new ArrayList<String>();
 
         String[] projection = {"Nombre"};
         Cursor vistas = db.query("Categoria", projection,null,null,null,null,null);
@@ -82,42 +79,53 @@ public class menuCategorias extends AppCompatActivity {
         }
         vistas.close();
 
-        if(categorias.getAdapter() != null){
-            categorias.getAdapter().notifyDataSetChanged();
-        }
+        MyAdapter adapter = new MyAdapter(this, R.layout.item_categoria,categoria);
+        categorias.setAdapter(adapter);
+        
     }
 
 
-    private class AdaptadorCategorias extends RecyclerView.Adapter<AdaptadorCategorias.AdaptadorCategoriasHolder> {
+    protected class MyAdapter extends BaseAdapter {
 
-        @NonNull
-        @Override
-        public AdaptadorCategoriasHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            return new AdaptadorCategoriasHolder(getLayoutInflater().inflate(R.layout.item_categoria, parent, false));
+        private Context context;
+        private int layout;
+        private ArrayList<String> names;
+
+        public MyAdapter(Context context, int layout, ArrayList<String> names) {
+            this.context = context;
+            this.layout = layout;
+            this.names = names;
         }
 
         @Override
-        public void onBindViewHolder(@NonNull AdaptadorCategoriasHolder holder, int position) {
-            holder.imprimir(position);
+        public int getCount() {
+            return this.names.size();
         }
 
         @Override
-        public int getItemCount() {
-            return categoria.size();
+        public Object getItem(int position) {
+            return this.names.get(position);
         }
 
-        private class AdaptadorCategoriasHolder extends RecyclerView.ViewHolder{
-            protected TextView nombre_categoria;
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
 
-            public AdaptadorCategoriasHolder(@NonNull View itemView) {
-                super(itemView);
-                nombre_categoria = itemView.findViewById(R.id.itemValorCategoria);
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View v = convertView;
 
-            }
+            LayoutInflater layoutInflater = LayoutInflater.from(this.context);
 
-            public void imprimir(int position) {
-                nombre_categoria.setText(categoria.get(position));
-            }
+            v = layoutInflater.inflate(R.layout.item_categoria, null);
+
+            String currentName = names.get(position);
+
+            TextView nombre = (TextView) v.findViewById(R.id.itemValorCategoria);
+            nombre.setText(currentName);
+
+            return v;
         }
     }
 

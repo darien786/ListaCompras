@@ -4,12 +4,17 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
@@ -28,8 +33,7 @@ public class menuListas extends AppCompatActivity {
     private FloatingActionButton btn_AgregarListas;
 
     protected int foto = R.drawable.menus_de_listas;
-    protected RecyclerView listas;
-    protected List<String> lista;
+    protected ListView listas;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -49,72 +53,81 @@ public class menuListas extends AppCompatActivity {
             }
         });
 
-        LinearLayoutManager linearManayer = new LinearLayoutManager(this);
-        AdaptadorListas adapter = new AdaptadorListas();
-        listas.setLayoutManager(linearManayer);
-        listas.setAdapter(adapter);
+        actualizarDatos();
 
-        lista = new ArrayList<String>();
     }
 
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
         actualizarDatos();
     }
 
-    private void actualizarDatos(){
-        lista.clear();
+    private void actualizarDatos() {
+
 
         AdminSQLite baseCompras = new AdminSQLite(getBaseContext());
-        SQLiteDatabase db  = baseCompras.getWritableDatabase();
+        SQLiteDatabase db = baseCompras.getWritableDatabase();
+
+        ArrayList<String> lista = new ArrayList<String>();
+
 
         String[] projection = {"Nombre"};
-        Cursor vistas = db.query("Lista", projection,null,null,null,null,null);
-        while(vistas.moveToNext()){
+        Cursor vistas = db.query("Lista", projection, null, null, null, null, null);
+        while (vistas.moveToNext()) {
             String nombre = vistas.getString(vistas.getColumnIndexOrThrow("Nombre"));
             lista.add(nombre);
         }
         vistas.close();
 
-        if(listas.getAdapter() != null){
-            listas.getAdapter().notifyDataSetChanged();
-        }
+        MyAdapter adapter = new MyAdapter(this, R.layout.item_lista, lista);
+        listas.setAdapter(adapter);
+
     }
 
 
-    protected class AdaptadorListas extends RecyclerView.Adapter<AdaptadorListas.AdaptadorListasHolder> {
+    protected class MyAdapter extends BaseAdapter {
 
+        private Context context;
+        private int layout;
+        private ArrayList<String> names;
 
-        @NonNull
-        @Override
-        public AdaptadorListas.AdaptadorListasHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            return new AdaptadorListas.AdaptadorListasHolder(getLayoutInflater().inflate(R.layout.item_lista, parent, false));
+        public MyAdapter(Context context, int layout, ArrayList<String> names) {
+            this.context = context;
+            this.layout = layout;
+            this.names = names;
         }
 
         @Override
-        public void onBindViewHolder(@NonNull AdaptadorListas.AdaptadorListasHolder holder, int position) {
-            holder.imprimir(position);
+        public int getCount() {
+            return this.names.size();
         }
 
         @Override
-        public int getItemCount() {
-            return lista.size();
+        public Object getItem(int position) {
+            return this.names.get(position);
         }
 
-
-        private class AdaptadorListasHolder extends RecyclerView.ViewHolder{
-            protected TextView nombre_categoria;
-
-            public AdaptadorListasHolder(@NonNull View itemView) {
-                super(itemView);
-                nombre_categoria = itemView.findViewById(R.id.itemValorLista);
-            }
-
-            public void imprimir(int position) {
-                nombre_categoria.setText(lista.get(position));
-            }
+        @Override
+        public long getItemId(int position) {
+            return position;
         }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View v = convertView;
+
+            LayoutInflater layoutInflater = LayoutInflater.from(this.context);
+
+            v = layoutInflater.inflate(R.layout.item_lista, null);
+
+            String currentName = names.get(position);
+
+            TextView nombre = (TextView) v.findViewById(R.id.itemValorLista);
+            nombre.setText(currentName);
+
+            return v;
+        }
+
     }
-
 }

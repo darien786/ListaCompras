@@ -4,13 +4,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.annotation.SuppressLint;
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.gamehub.listacompras.bd.AdminSQLite;
 
@@ -20,7 +23,6 @@ import java.util.List;
 public class agregarArticulo extends AppCompatActivity {
 
     protected Toolbar toolArticulo;
-    protected EditText agregar_nombre;
     protected Spinner categorias;
     protected Spinner unidad;
 
@@ -68,6 +70,45 @@ public class agregarArticulo extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_aceptar_agregar_articulo, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch (item.getItemId()){
+
+            case R.id.menu_aceptar_articulo:
+
+                EditText agregar_nombre = findViewById(R.id.id_nombre_articulo);
+                EditText agregar_precio = findViewById(R.id.id_precio_articulo);
+                EditText agregar_cantidad = findViewById(R.id.id_cantidad_articulo);
+
+                String nombre = agregar_nombre.getText().toString().trim();
+                Float precio = Float.valueOf(agregar_precio.getText().toString().trim());
+                int cantidad = Integer.parseInt(agregar_cantidad.getText().toString().trim());
+
+                String unidad_tabla = (String) unidad.getSelectedItem().toString().trim();
+                String categoria_tabla = (String) categorias.getSelectedItem().toString().trim();
+
+                AdminSQLite adminSQLite = new AdminSQLite(getBaseContext());
+                SQLiteDatabase db = adminSQLite.getWritableDatabase();
+
+                ContentValues values = new ContentValues();
+                values.put("Nombre", nombre);
+                values.put("Cantidad", cantidad);
+                values.put("Precio", precio);
+                values.put("Nombre_Unidad", unidad_tabla);
+                values.put("Nombre_Categoria", categoria_tabla);
+
+                db.insert("Articulo",null, values);
+
+                finish();
+                return true;
+
+            default:
+                finish();
+                return true;
+        }
+
     }
 
 

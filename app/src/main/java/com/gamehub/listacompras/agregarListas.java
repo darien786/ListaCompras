@@ -49,6 +49,8 @@ public class agregarListas extends AppCompatActivity {
         switch (item.getItemId()){
 
             case R.id.aceptarAgregarLista:
+
+
                 agregar_nombre = (EditText) findViewById(R.id.id_nombre_lista);
 
 

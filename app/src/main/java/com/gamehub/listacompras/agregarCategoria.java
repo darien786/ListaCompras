@@ -52,7 +52,7 @@ public class agregarCategoria extends AppCompatActivity {
                 SQLiteDatabase db = admin.getWritableDatabase();
 
                 ContentValues values = new ContentValues();
-                values.put("Nombre", agregar_nombre.getText().toString());
+                values.put("Nombre", agregar_nombre.getText().toString().trim());
                 db.insert("Categoria", null, values);
                 finish();
 
