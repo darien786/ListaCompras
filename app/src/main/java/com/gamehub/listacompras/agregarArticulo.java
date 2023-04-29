@@ -25,6 +25,7 @@ public class agregarArticulo extends AppCompatActivity {
     protected Toolbar toolArticulo;
     protected Spinner categorias;
     protected Spinner unidad;
+    protected int valor;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -92,15 +93,21 @@ public class agregarArticulo extends AppCompatActivity {
                 AdminSQLite adminSQLite = new AdminSQLite(getBaseContext());
                 SQLiteDatabase db = adminSQLite.getWritableDatabase();
 
+
+                String valorLista = "1";
+
+                int id_lista = Integer.parseInt(valorLista.trim());
+
                 ContentValues values = new ContentValues();
                 values.put("Nombre", nombre);
                 values.put("Cantidad", cantidad);
                 values.put("Precio", precio);
                 values.put("Nombre_Unidad", unidad_tabla);
                 values.put("Nombre_Categoria", categoria_tabla);
-
+                values.put("id_Lista", id_lista);
                 db.insert("Articulo",null, values);
 
+                db.close();
 
                 finish();
                 return true;
@@ -111,6 +118,5 @@ public class agregarArticulo extends AppCompatActivity {
         }
 
     }
-
 
 }

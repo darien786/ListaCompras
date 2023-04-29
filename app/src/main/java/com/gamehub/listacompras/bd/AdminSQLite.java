@@ -27,13 +27,14 @@ public class AdminSQLite extends SQLiteOpenHelper {
                 "Precio REAL," +
                 "Nombre_Categoria TEXT," +
                 "Nombre_Unidad TEXT," +
+                "id_Lista INTEGER,"+
                 "FOREIGN KEY (Nombre_Categoria) REFERENCES Categoria(Nombre)," +
-                "FOREIGN KEY (Nombre_Unidad) REFERENCES Unidad(Nombre))");
+                "FOREIGN KEY (Nombre_Unidad) REFERENCES Unidad(Nombre)," +
+                "FOREIGN KEY (id_Lista) REFERENCES Lista(id_Lista))");
 
         db.execSQL("CREATE TABLE Lista (" +
                 "id_Lista INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "Nombre TEXT NOT NULL," +
-                "Total REAL)");
+                "Nombre TEXT NOT NULL)");
 
         db.execSQL("CREATE TABLE Categoria (" +
                 "Nombre TEXT PRIMARY KEY NOT NULL" +
@@ -41,12 +42,12 @@ public class AdminSQLite extends SQLiteOpenHelper {
 
         db.execSQL("CREATE TABLE Unidad (" +
                 "Nombre TEXT PRIMARY KEY NOT NULL)");
-
+/*
         db.execSQL("CREATE TABLE lista_Articulo(id_Lista INTEGER NOT NULL" +
                 ", id_Articulo INTEGER NOT NULL," +
                 " FOREIGN KEY (id_Lista) REFERENCES Lista(id_Lista)," +
                 " FOREIGN KEY (id_Articulo) REFERENCES Articulo(id_Articulo))");
-
+*/
 
         //Insertar datos por defecto
         db.execSQL("INSERT INTO Lista(Nombre) VALUES('Mi Lista')");
@@ -79,6 +80,10 @@ public class AdminSQLite extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO Categoria(Nombre) VALUES('Cereales')");
 
         db.execSQL("INSERT INTO Categoria(Nombre) VALUES('Sin categoría')");
+
+
+        db.execSQL("INSERT INTO Articulo(Nombre,Cantidad,Precio,Nombre_Unidad,Nombre_Categoria,id_Lista) " +
+                "VALUES('Prueba',1,20,'un','Sin categoria',1)");
     }
 
     @Override

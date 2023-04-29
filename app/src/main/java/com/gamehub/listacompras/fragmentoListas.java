@@ -10,11 +10,14 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.gamehub.listacompras.bd.AdminSQLite;
@@ -105,6 +108,8 @@ public class fragmentoListas extends Fragment {
         return view;
     }
 
+
+
     @Override
     public void onResume(){
         super.onResume();
@@ -117,124 +122,45 @@ public class fragmentoListas extends Fragment {
         AdminSQLite adminSQLite = new AdminSQLite(getContext());
         SQLiteDatabase db = adminSQLite.getReadableDatabase();
 
+
+        String tabla = "Articulo INNER JOIN Lista ON Articulo.id_Lista=Lista.id_Lista";
+        String where = "Lista.Nombre=?";
+        String [] whereArgs = {"Mi Lista"};
+        String [] project = {"Articulo.*"};
+
         List<Articulo> articulos = new ArrayList<>();
 
         int totalLista = 0,multiplicador;
 
-        Cursor vista = db.query("Articulo", null,null,null,null,null,null);
-        while(vista.moveToNext()){
+            Cursor vista = db.query(tabla,project,where,whereArgs,null,null,null);
+            while(vista.moveToNext()) {
+                String nombre = vista.getString(vista.getColumnIndexOrThrow("Nombre"));
+                String cantidad = vista.getString(vista.getColumnIndexOrThrow("Cantidad"));
+                String precio = vista.getString(vista.getColumnIndexOrThrow("Precio"));
+                String unidad = vista.getString(vista.getColumnIndexOrThrow("Nombre_Unidad"));
+                String categoria = vista.getString(vista.getColumnIndexOrThrow("Nombre_Categoria"));
+                String lista = vista.getString(vista.getColumnIndexOrThrow("id_Lista"));
 
-            String nombre = vista.getString(vista.getColumnIndexOrThrow("Nombre"));
-            String cantidad  = vista.getString(vista.getColumnIndexOrThrow("Cantidad"));
-            String precio = vista.getString(vista.getColumnIndexOrThrow("Precio"));
-            String unidad = vista.getString(vista.getColumnIndexOrThrow("Nombre_Unidad"));
-            String categoria = vista.getString(vista.getColumnIndexOrThrow("Nombre_Categoria"));
+                articulos.add(new Articulo(nombre, cantidad, precio, unidad, categoria,lista));
 
-            articulos.add(new Articulo(nombre,cantidad,precio,unidad,categoria));
+                int cantidadEntero = Integer.parseInt(cantidad);
+                int precioFloat = Integer.parseInt(precio);
 
-            int cantidadEntero = Integer.parseInt(cantidad);
-            int precioFloat = Integer.parseInt(precio);
-
-            multiplicador = precioFloat * cantidadEntero;
-            totalLista += multiplicador;
-        }
-
-        vista.close();
-
-        total.setText("Total: $" + totalLista);
-
-        MyAdapter adapter = new MyAdapter( getActivity(),articulos);
-        //ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1,articulos);
-        mostrar_articulos.setAdapter(adapter);
-
-
-    }
-
-
-    protected class MyAdapter extends ArrayAdapter<Articulo> {
-
-        private Context context;
-        private int layout;
-        private ArrayList<String> names;
-
-        public MyAdapter(Context context, List<Articulo> articulos) {
-            super(context,0,articulos);
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            Articulo articulo = getItem(position);
-
-            if(convertView == null){
-                convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_articulo,parent,false);
+                multiplicador = precioFloat * cantidadEntero;
+                totalLista += multiplicador;
             }
 
-            TextView nombre = convertView.findViewById(R.id.id_valor_articulo);
-            TextView id_datos = convertView.findViewById(R.id.id_mas_datos);
+            vista.close();
 
-            String datos = articulo.getCantidad() + " "
-                    + articulo.getUnidad() + " = $"
-                    + articulo.getPrecio();
 
-            nombre.setText(articulo.getNombre());
-            id_datos.setText(datos);
+            total.setText("Total: $" + totalLista);
 
-            return convertView;
-        }
+            MyAdapter adapter = new MyAdapter( getActivity(),articulos);
+            mostrar_articulos.setAdapter(adapter);
+
     }
 
-    protected class Articulo{
-        protected String nombre;
-        protected String cantidad;
-        protected String precio;
-        protected String unidad;
-        protected String categoria;
 
-        public Articulo(String nombre,String cantidad, String precio, String unidad, String categoria){
-            this.nombre=nombre;
-            this.cantidad=cantidad;
-            this.precio=precio;
-            this.unidad=unidad;
-            this.categoria=categoria;
-        }
-
-        public void setNombre(String nombre){
-            this.nombre=nombre;
-        }
-
-        public void setCantidad(String cantidad){
-            this.cantidad=cantidad;
-        }
-
-        public void setPrecio(String precio){
-            this.precio=precio;
-        }
-
-        public void setUnidad(String unidad){
-            this.unidad=unidad;
-        }
-
-        public void setCategoria(String categoria){
-            this.categoria=categoria;
-        }
-
-        public String getNombre(){
-            return nombre;
-        }
-        public String getCantidad(){
-            return cantidad;
-        }
-        public String getPrecio(){
-            return precio;
-        }
-
-        public String getUnidad(){
-            return unidad;
-        }
-        public String getCategoria(){
-            return categoria;
-        }
-    }
 
 }
 
