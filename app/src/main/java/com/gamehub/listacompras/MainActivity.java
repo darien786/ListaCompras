@@ -89,14 +89,6 @@ public class MainActivity extends AppCompatActivity {
 
                     case R.id.listasPrincipal:
                         getSupportFragmentManager().beginTransaction().replace(R.id.frame1, new fragmentoListas()).commit();
-
-                        Bundle args = new Bundle();
-                        args.putString("selectedItem", spinnerlistas.getSelectedItem().toString().trim());
-                        fragmentoListas fragListas = new fragmentoListas();
-                        fragListas.setArguments(args);
-                        getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.frame1, fragListas)
-                                .commit();
                         return true;
 
                     case R.id.calculadora:
@@ -130,11 +122,36 @@ public class MainActivity extends AppCompatActivity {
         }
         vista.close();
 
+
+
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, Listas);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerlistas.setAdapter(adapter);
 
+
+        spinnerlistas.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String itemSelect = parent.getItemAtPosition(position).toString().trim();
+                Bundle args = new Bundle();
+                args.putString("selectedItem", itemSelect);
+                fragmentoListas fragment = new fragmentoListas();
+                fragment.setArguments(args);
+                getSupportFragmentManager().beginTransaction().replace(R.id.frame1,fragment).commit();
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+
         return true;
     }
+
+
 
 }
