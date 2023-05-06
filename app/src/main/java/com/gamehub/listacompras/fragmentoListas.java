@@ -118,17 +118,15 @@ public class fragmentoListas extends Fragment {
 
     protected void actualizarDatos(){
 
-        Bundle args = getArguments();
-        if (args != null){
 
-            String spinnerValor = args.getString("selectedItem");
+            //String spinnerValor = args.getString("selectedItem");
 
             AdminSQLite adminSQLite = new AdminSQLite(getContext());
             SQLiteDatabase db = adminSQLite.getReadableDatabase();
 
             String tabla = "Articulo INNER JOIN Lista ON Articulo.id_Lista=Lista.id_Lista";
             String where = "Lista.Nombre=?";
-            String [] whereArgs = {spinnerValor};
+            String [] whereArgs = {"Mi Lista2"};
             String [] project = {"Articulo.*"};
 
             List<Articulo> articulos = new ArrayList<>();
@@ -161,7 +159,6 @@ public class fragmentoListas extends Fragment {
             MyAdapter adapter = new MyAdapter( getActivity(),articulos);
             mostrar_articulos.setAdapter(adapter);
 
-        }
 
     }
 

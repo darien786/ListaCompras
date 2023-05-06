@@ -129,23 +129,6 @@ public class MainActivity extends AppCompatActivity {
         spinnerlistas.setAdapter(adapter);
 
 
-        spinnerlistas.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String itemSelect = parent.getItemAtPosition(position).toString().trim();
-                Bundle args = new Bundle();
-                args.putString("selectedItem", itemSelect);
-                fragmentoListas fragment = new fragmentoListas();
-                fragment.setArguments(args);
-                getSupportFragmentManager().beginTransaction().replace(R.id.frame1,fragment).commit();
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
 
 
 
