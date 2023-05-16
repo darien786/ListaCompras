@@ -22,6 +22,7 @@ import java.util.List;
 
 public class agregarArticulo extends AppCompatActivity {
 
+    //Componentes que vamos a estar utilizando
     protected Toolbar toolArticulo;
     protected Spinner categorias;
     protected Spinner unidad;
@@ -32,15 +33,21 @@ public class agregarArticulo extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agregar_articulo);
+
+        //Declaramos las variables con los id que estan agregando al activity
         categorias = (Spinner) findViewById(R.id.datos_categorias);
         unidad = (Spinner) findViewById(R.id.id_unidad_medida);
         toolArticulo = findViewById(R.id.toolbarArticulo);
         setSupportActionBar(toolArticulo);
 
+        //Agregamos un objeto que utilizamos para  crear la base de datos
         AdminSQLite baseCompras = new AdminSQLite(getBaseContext());
         SQLiteDatabase db  = baseCompras.getWritableDatabase();
 
+        //Agregamos una lista tipo String donde se guardaran los nombres de las categorias que se encuentran agregados en la base de datos
         List<String> lista = new ArrayList<String>();
+
+        //De la columna Nombre de la tabla Categoría, recuperaremos haciendo un recorrido con un while dentro de la tabla categoría para obtener todos los nombres.
         String[] projection = {"Nombre"};
         Cursor vistas = db.query("Categoria", projection,null,null,null,null,null);
         while(vistas.moveToNext()){
@@ -49,10 +56,12 @@ public class agregarArticulo extends AppCompatActivity {
         }
         vistas.close();
 
+        //Creamos un ArrayAdapte que va a estar guardando valores de tipo string, ademas de asignarle un diseño
         ArrayAdapter <String> adapter = new ArrayAdapter <String> (this, android.R.layout.simple_spinner_item, lista);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         categorias.setAdapter(adapter);
 
+        //De la columna Nombre de la tabla Unidad, recuperaremos haciendo un recorrido con un while dentro de la tabla categoría para obtener todos los nombres.
         List<String> unidades = new ArrayList<>();
         String [] proyeccion = {"Nombre"};
         Cursor vistasUnidad = db.query("Unidad",proyeccion,null,null,null,null,null);
@@ -62,6 +71,8 @@ public class agregarArticulo extends AppCompatActivity {
         }
         vistasUnidad.close();
 
+
+        //Creamos un ArrayAdapte que va a estar guardando valores de tipo string, ademas de asignarle un diseño
         ArrayAdapter <String> adapter2 = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,unidades);
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         unidad.setAdapter(adapter2);

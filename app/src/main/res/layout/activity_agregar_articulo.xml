@@ -96,7 +96,7 @@
                     android:layout_weight="1"
                     android:ems="10"
                     android:hint="$20"
-                    android:inputType="number"
+                    android:inputType="numberDecimal"
                     android:minHeight="60dp" />
 
                 <EditText

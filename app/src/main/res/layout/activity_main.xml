@@ -5,9 +5,8 @@
     android:id="@+id/drawer1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:scrollbars="vertical"
-    tools:context=".MainActivity"
-    >
+    android:scrollbars="none"
+    tools:context=".MainActivity">
 
 
     <LinearLayout
@@ -15,23 +14,11 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary"
-            android:paddingStart="10dp"
-            android:paddingLeft="20dp"
-            android:paddingEnd="10dp"
-            android:paddingRight="20sp"
-            app:menu="@menu/menuopciones"
-            tools:ignore="MissingConstraints" />
-
         <FrameLayout
             android:id="@+id/frame1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/botonBar"
@@ -44,13 +31,6 @@
         </com.google.android.material.bottomnavigation.BottomNavigationView>
 
     </LinearLayout>
-
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/navegation1"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        app:menu="@menu/menu1" />
 
 
 </androidx.drawerlayout.widget.DrawerLayout>
