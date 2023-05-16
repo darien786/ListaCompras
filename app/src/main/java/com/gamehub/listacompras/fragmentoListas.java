@@ -90,7 +90,8 @@ public class fragmentoListas extends Fragment {
     private NavigationView navigationView;
     Spinner spinnerlistas;
     private String listaActual="Mi Lista";
-    private int valorLista;
+    private String valorLista;
+
     @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -147,8 +148,10 @@ public class fragmentoListas extends Fragment {
             public void onClick(View v) {
 
                 Intent ventanaAgregar = new Intent(getActivity(),agregarArticulo.class);
-                valorLista = spinnerlistas.getSelectedItemPosition();
-                ventanaAgregar.putExtra("intLista",valorLista);
+                valorLista = spinnerlistas.getSelectedItem().toString().trim();
+                Bundle bundle = new Bundle();
+                bundle.putString("valorLista",valorLista);
+                ventanaAgregar.putExtras(bundle);
                 startActivity(ventanaAgregar);
 
             }

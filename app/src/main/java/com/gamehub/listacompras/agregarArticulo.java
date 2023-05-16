@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gamehub.listacompras.bd.AdminSQLite;
@@ -27,6 +28,8 @@ public class agregarArticulo extends AppCompatActivity {
     protected Spinner categorias;
     protected Spinner unidad;
     protected int valor;
+    Bundle bundle;
+    String valorLista;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -77,6 +80,12 @@ public class agregarArticulo extends AppCompatActivity {
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         unidad.setAdapter(adapter2);
 
+        bundle = getIntent().getExtras();
+        valorLista = bundle.getString("valorLista");
+        TextView prueba = (TextView) findViewById(R.id.textView3);
+
+        prueba.setText(valorLista);
+
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -104,11 +113,17 @@ public class agregarArticulo extends AppCompatActivity {
                 AdminSQLite adminSQLite = new AdminSQLite(getBaseContext());
                 SQLiteDatabase db = adminSQLite.getWritableDatabase();
 
-
-                String valorLista = "1";
-
-                int id_lista = Integer.parseInt(valorLista.trim());
-
+                int id_lista = 0;
+                String tabla = "Lista";
+                String where = "Lista.Nombre=?";
+                String [] whereArgs = {valorLista.trim()};
+                String [] project = {"id_Lista"};
+                Cursor buscar = db.query(tabla,project,where,whereArgs,null,null,null);
+                while (buscar.moveToNext()){
+                    id_lista = Integer.parseInt(buscar.getString(buscar.getColumnIndexOrThrow("id_Lista")));
+                }
+                buscar.close();
+                
                 ContentValues values = new ContentValues();
                 values.put("Nombre", nombre);
                 values.put("Cantidad", cantidad);
