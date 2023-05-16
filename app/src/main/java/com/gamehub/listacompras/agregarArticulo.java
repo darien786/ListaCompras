@@ -82,10 +82,6 @@ public class agregarArticulo extends AppCompatActivity {
 
         bundle = getIntent().getExtras();
         valorLista = bundle.getString("valorLista");
-        TextView prueba = (TextView) findViewById(R.id.textView3);
-
-        prueba.setText(valorLista);
-
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
