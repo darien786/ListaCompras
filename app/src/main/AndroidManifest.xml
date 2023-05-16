@@ -49,10 +49,12 @@
         <activity
             android:name=".menuConfiguracion"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".menuListas"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:parentActivityName=".MainActivity" />
 
         <meta-data
