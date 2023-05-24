@@ -3,18 +3,18 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/eliminarOpcionesLista"
+        android:id="@+id/eliminarCategoria"
         android:icon="@drawable/baseline_delete_24"
-        android:title="Eliminar"
+        android:title="Eliminar categoria"
         app:showAsAction="always" />
     <item
-        android:id="@+id/editarOpcionesLista"
+        android:id="@+id/editarCategoria"
         android:icon="@drawable/baseline_edit_24"
-        android:title="Editar"
+        android:title="Editar categoria"
         app:showAsAction="always" />
     <item
-        android:id="@+id/copiarOpcionesLista"
+        android:id="@+id/copiarCategoria"
         android:icon="@drawable/baseline_file_copy_24"
-        android:title="Copiar"
+        android:title="Copiar categoria"
         app:showAsAction="always" />
 </menu>

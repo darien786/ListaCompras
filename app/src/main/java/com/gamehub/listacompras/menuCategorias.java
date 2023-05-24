@@ -12,13 +12,18 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.gamehub.listacompras.bd.AdminSQLite;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -29,10 +34,10 @@ import java.util.List;
 public class menuCategorias extends AppCompatActivity {
 
     private Toolbar tb2;
-
     private FloatingActionButton btn_AgregarCategoria;
     protected ListView categorias;
-
+    private String categoriaSelecionada;
+    private Object object;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,13 +59,85 @@ public class menuCategorias extends AppCompatActivity {
         });
 
         actualizarDatos();
-
+        onCLick();
     }
+
+    public void onCLick(){
+        categorias.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        categorias.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                categoriaSelecionada = (String) parent.getItemAtPosition(position);
+                tb2.setVisibility(View.GONE);
+                object = menuCategorias.this.startActionMode(acm);
+                view.setSelected(true);
+                return true;
+            }
+        });
+    }
+
+    private ActionMode.Callback acm = new ActionMode.Callback(){
+
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            getMenuInflater().inflate(R.menu.menu_opciones_categoria,menu);
+            return true;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            return false;
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            switch (item.getItemId()){
+
+                case R.id.eliminarCategoria:
+                    AdminSQLite sql = new AdminSQLite(getBaseContext());
+                    SQLiteDatabase data = sql.getReadableDatabase();
+
+                    String tableName = "Categoria";
+                    String whereClause = "Nombre=?";
+                    String[] whereArgs = {categoriaSelecionada};
+
+                    int eliminar = data.delete(tableName,whereClause,whereArgs);
+
+                    if(eliminar > 0){
+                        //Se elimino con éxito
+                        Toast.makeText(getBaseContext(), "¡Categoría eliminada con éxito!", Toast.LENGTH_LONG).show();
+                        actualizarDatos();
+                    }else{
+                        //No se encontro la tupla o no se pudo
+                        Toast.makeText(getBaseContext(),"¡Error al eliminar!", Toast.LENGTH_LONG).show();
+                    }
+                    mode.finish();
+
+                case R.id.editarCategoria:
+
+                    mode.finish();
+                    return true;
+
+                case R.id.copiarCategoria:
+
+                    mode.finish();
+                    return true;
+            }
+            return true;
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+            tb2.setVisibility(View.VISIBLE);
+            mode.finish();
+        }
+    };
 
     @Override
     protected void onResume() {
         super.onResume();
         actualizarDatos();
+        onCLick();
     }
 
     private void actualizarDatos(){

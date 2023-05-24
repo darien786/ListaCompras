@@ -211,21 +211,6 @@ public class fragmentoListas extends Fragment {
         });
         }
 
-    //Para cuando se agrege algo al item
-    /*@Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int itemId = item.getItemId();
-        // Manejar los eventos de los elementos del menú
-        if (itemId == R.id.menu_item1) {
-            // Acción para el elemento del menú 1
-            return true;
-        } else if (itemId == R.id.menu_item2) {
-            // Acción para el elemento del menú 2
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }*/
-
 
     @Override
     public void onResume(){
