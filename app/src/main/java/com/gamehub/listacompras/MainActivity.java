@@ -3,11 +3,14 @@ package com.gamehub.listacompras;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Spinner;
@@ -26,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar tb1;
     public Spinner spinnerlistas;
     public List<String> Listas;
+    private SharedPreferences sharedPreferences;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -37,6 +41,17 @@ public class MainActivity extends AppCompatActivity {
         botonNavegation = findViewById(R.id.botonBar);
 
         getSupportFragmentManager().beginTransaction().add(R.id.frame1, new fragmentoListas()).commit();
+
+        sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        boolean switchState = sharedPreferences.getBoolean("switchState", false);
+
+        if(switchState ==true){
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            //recreate();
+        }else{
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            //recreate();
+        }
 
         botonNavegation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
