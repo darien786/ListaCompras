@@ -26,6 +26,7 @@ public class fragmentoCalculadora extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    private Boolean b = true;
     public fragmentoCalculadora() {
         // Required empty public constructor
     }
@@ -173,43 +174,54 @@ public class fragmentoCalculadora extends Fragment {
         btnPunto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                editTextResul.append(".");
+                if(b == true){
+                    editTextResul.append(".");
+                    b=false;
+                }
             }
         });
 
         btnSuma.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                compute();
-                operador = '+';
-                editTextResul.setText(null);
+                if(!editTextResul.getText().toString().equals("")){
+                    compute();
+                    operador = '+';
+                    editTextResul.setText(null);
+                }
             }
         });
 
         btnResta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                compute();
-                operador = '-';
-                editTextResul.setText(null);
+                if(!editTextResul.getText().toString().equals("")){
+                    compute();
+                    operador = '-';
+                    editTextResul.setText(null);
+            }
             }
         });
 
         btnMulti.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                compute();
-                operador = '*';
-                editTextResul.setText(null);
+                if(!editTextResul.getText().toString().equals("")){
+                    compute();
+                    operador = '*';
+                    editTextResul.setText(null);
+                }
             }
         });
 
         btnDividir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                compute();
-                operador = '/';
-                editTextResul.setText(null);
+                if(!editTextResul.getText().toString().equals("")){
+                    compute();
+                    operador = '/';
+                    editTextResul.setText(null);
+                }
             }
         });
 
@@ -217,10 +229,12 @@ public class fragmentoCalculadora extends Fragment {
         btnIgual.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                compute();
-                operador = '=';
-                editTextResul.setText(String.valueOf(operando1));
-                operando1 = Double.NaN;
+                if(!editTextResul.getText().toString().equals("")){
+                    compute();
+                    operador = '=';
+                    editTextResul.setText(String.valueOf(operando1));
+                    operando1 = Double.NaN;
+                }
             }
         });
 

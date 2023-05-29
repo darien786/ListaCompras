@@ -302,7 +302,7 @@
             android:maxLength="20"
             android:text="0"
             android:textAlignment="textEnd"
-            android:textColor="@color/black"
+            android:textColor="?android:textColor"
             android:textSize="30dp"
             app:layout_constraintBottom_toTopOf="@+id/guideline20"
             app:layout_constraintEnd_toEndOf="parent"
