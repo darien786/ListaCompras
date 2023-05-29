@@ -1,5 +1,7 @@
 package com.gamehub.listacompras;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -95,9 +97,12 @@ public class fragmentoCalculadora extends Fragment {
 
         editTextResul = view.findViewById(R.id.resultadoTextView);
 
+        SharedPreferences preferences = getActivity().getSharedPreferences("mis", Context.MODE_PRIVATE);
+        String dato = preferences.getString("dato", "");
         btnLista.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                editTextResul.setText(dato);
             }
         });
 

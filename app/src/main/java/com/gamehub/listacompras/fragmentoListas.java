@@ -1,7 +1,9 @@
 package com.gamehub.listacompras;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -84,7 +86,7 @@ public class fragmentoListas extends Fragment {
 
     protected FloatingActionButton agregar_articulo;
     protected ListView mostrar_articulos;
-    protected TextView total;
+    public TextView total;
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
@@ -254,6 +256,12 @@ public class fragmentoListas extends Fragment {
 
 
             total.setText("Total: $" + totalLista);
+
+            // Guardar el valor en SharedPreferences
+            SharedPreferences preferences = getActivity().getSharedPreferences("mis", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString("dato", totalLista.toString());
+            editor.apply();
 
             MyAdapter adapter = new MyAdapter( getActivity(),articulos);
             mostrar_articulos.setAdapter(adapter);
