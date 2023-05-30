@@ -15,6 +15,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
+import android.os.Environment;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,15 +25,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.appcompat.widget.Toolbar;
 
 import com.gamehub.listacompras.bd.AdminSQLite;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,7 +92,6 @@ public class fragmentoListas extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
         setHasOptionsMenu(true);
-
     }
 
     protected FloatingActionButton agregar_articulo;
@@ -93,6 +103,8 @@ public class fragmentoListas extends Fragment {
     Spinner spinnerlistas;
     private String listaActual="Mi Lista";
     private String valorLista;
+    private Button boton_descargar;
+    private String totalTxt;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -100,7 +112,7 @@ public class fragmentoListas extends Fragment {
                              Bundle savedInstanceState) {
 
         //((MainActivity) getActivity()).getSupportActionBar().show();
-
+        boton_descargar = (Button) getActivity().findViewById(R.id.menuCompartir);
 
         View view = inflater.inflate(R.layout.fragment_fragmento_listas,container,false);
 
@@ -180,6 +192,20 @@ public class fragmentoListas extends Fragment {
         MenuItem item = menu.findItem(R.id.spinnerlista);
         spinnerlistas = (Spinner) item.getActionView();
 
+        //Para descargar
+        MenuItem menuItem = menu.findItem(R.id.menuImprimir);
+        menuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(@NonNull MenuItem item) {
+                int id = item.getItemId();
+                if(id == R.id.menuImprimir){
+                    guardarArchivo();
+                }
+                return true;
+            }
+        });
+
+
 
         AdminSQLite database = new AdminSQLite(getContext());
         SQLiteDatabase db = database.getReadableDatabase();
@@ -254,8 +280,9 @@ public class fragmentoListas extends Fragment {
 
             vista.close();
 
-
             total.setText("Total: $" + totalLista);
+
+            totalTxt = totalLista.toString();
 
             // Guardar el valor en SharedPreferences
             SharedPreferences preferences = getActivity().getSharedPreferences("mis", Context.MODE_PRIVATE);
@@ -265,11 +292,50 @@ public class fragmentoListas extends Fragment {
 
             MyAdapter adapter = new MyAdapter( getActivity(),articulos);
             mostrar_articulos.setAdapter(adapter);
-
-
     }
 
 
+    public void guardarArchivo(){
+        String nombreLista = listaActual+".txt";
+        File carpetaAlmacenamiento = Environment.getExternalStorageDirectory();
+        File  archivo = new File(carpetaAlmacenamiento.getAbsolutePath(), nombreLista);
+
+        StringBuilder datos = new StringBuilder();
+        int itemCount = mostrar_articulos.getAdapter().getCount();
+
+        datos.append(listaActual).append("\n");
+        int c=1;
+
+        for (int i = 0; i < itemCount; i++) {
+            Object item = mostrar_articulos.getAdapter().getItem(i);
+            if (item instanceof Articulo) {
+                Articulo articulo = (Articulo) item;
+                String nombre = articulo.getNombre();
+                String cantidad = articulo.getCantidad();
+                String unidad = articulo.getUnidad();
+                String precio = articulo.getPrecio();
+                String categoria = articulo.getCategoria();
+
+                datos.append("\n"+"Articulo "+ c++).append("\n"+"    Nombre: "+nombre).append("\n"+"    Categoría: "+categoria).append("\n"+"    Cantidad: "+cantidad+" "+unidad).append("\n"+"    Precio: "+"$"+precio).append("\n");
+            }
+        }
+
+        datos.append("\n"+"\n"+"\n").append("Total de la lista:  $" +totalTxt);
+
+        try {
+            FileOutputStream fos = new FileOutputStream(archivo);
+            OutputStreamWriter osw = new OutputStreamWriter(fos);
+
+            osw.write(datos.toString());
+
+            osw.close();
+            fos.close();
+
+            Toast.makeText(getContext(), "Archivo Guardado en: " + archivo, Toast.LENGTH_SHORT).show();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
 
 }
 
