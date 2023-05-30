@@ -193,6 +193,7 @@ public class fragmentoCalculadora extends Fragment {
                     compute();
                     operador = '+';
                     editTextResul.setText(null);
+                    b=true;
                 }
             }
         });
@@ -204,6 +205,7 @@ public class fragmentoCalculadora extends Fragment {
                     compute();
                     operador = '-';
                     editTextResul.setText(null);
+                    b=true;
             }
             }
         });
@@ -215,6 +217,7 @@ public class fragmentoCalculadora extends Fragment {
                     compute();
                     operador = '*';
                     editTextResul.setText(null);
+                    b=true;
                 }
             }
         });
@@ -226,6 +229,7 @@ public class fragmentoCalculadora extends Fragment {
                     compute();
                     operador = '/';
                     editTextResul.setText(null);
+                    b=true;
                 }
             }
         });
@@ -239,6 +243,7 @@ public class fragmentoCalculadora extends Fragment {
                     operador = '=';
                     editTextResul.setText(String.valueOf(operando1));
                     operando1 = Double.NaN;
+                    b=false;
                 }
             }
         });
@@ -250,6 +255,7 @@ public class fragmentoCalculadora extends Fragment {
                 operando1 = Double.NaN;
                 operando2 = Double.NaN;
                 editTextResul.setText(null);
+                b=true;
             }
         });
 
