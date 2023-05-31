@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -205,6 +206,18 @@ public class fragmentoListas extends Fragment {
             }
         });
 
+        //Para compartir
+        MenuItem menuItemCompartir = menu.findItem(R.id.menuCompartir);
+        menuItemCompartir.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(@NonNull MenuItem item) {
+                int id = item.getItemId();
+                if(id==R.id.menuCompartir){
+                    compartirArchivo();
+                }
+                return true;
+            }
+        });
 
 
         AdminSQLite database = new AdminSQLite(getContext());
@@ -297,7 +310,8 @@ public class fragmentoListas extends Fragment {
 
     public void guardarArchivo(){
         String nombreLista = listaActual+".txt";
-        File carpetaAlmacenamiento = Environment.getExternalStorageDirectory();
+        //File carpetaAlmacenamiento = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
+        File carpetaAlmacenamiento = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
         File  archivo = new File(carpetaAlmacenamiento.getAbsolutePath(), nombreLista);
 
         StringBuilder datos = new StringBuilder();
@@ -335,6 +349,35 @@ public class fragmentoListas extends Fragment {
         } catch (IOException e){
             e.printStackTrace();
         }
+    }
+
+    public void compartirArchivo(){
+        String nombreLista = listaActual+".txt";
+        File carpetaAlmacenamiento = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
+        File  archivo = new File(carpetaAlmacenamiento.getAbsolutePath(), nombreLista);
+
+        String rutaArchivo = archivo.toString();
+
+        Uri fileUri = Uri.fromFile(archivo);
+
+        Intent intent_compartir = new Intent(Intent.ACTION_SEND);
+        intent_compartir.setType("text/plain");
+
+        // Añadir el archivo URI al Intent
+        intent_compartir.putExtra(Intent.EXTRA_STREAM, fileUri);
+
+        // Agregar un texto adicional al mensaje (opcional)
+        intent_compartir.putExtra(Intent.EXTRA_TEXT, "¡Te comparto mi Lista de Compras!");
+
+        // Especificar el paquete de WhatsApp para garantizar que se abra la aplicación
+        //intent_compartir.setPackage("com.whatsapp");
+        //intent_compartir.setPackage("com.facebook.katana");
+        intent_compartir.setPackage("org.telegram.messenger");
+
+        // Iniciar el Intent para compartir
+        startActivity(Intent.createChooser(intent_compartir, "Compartir archivo a través de:"));
+
+        Toast.makeText(getContext(), "Archivo Guardado en: " + rutaArchivo, Toast.LENGTH_SHORT).show();
     }
 
 }
