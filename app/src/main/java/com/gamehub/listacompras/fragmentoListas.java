@@ -2,6 +2,7 @@ package com.gamehub.listacompras;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -12,6 +13,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -356,8 +358,6 @@ public class fragmentoListas extends Fragment {
         File carpetaAlmacenamiento = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
         File  archivo = new File(carpetaAlmacenamiento.getAbsolutePath(), nombreLista);
 
-        String rutaArchivo = archivo.toString();
-
         Uri fileUri = Uri.fromFile(archivo);
 
         Intent intent_compartir = new Intent(Intent.ACTION_SEND);
@@ -369,15 +369,8 @@ public class fragmentoListas extends Fragment {
         // Agregar un texto adicional al mensaje (opcional)
         intent_compartir.putExtra(Intent.EXTRA_TEXT, "¡Te comparto mi Lista de Compras!");
 
-        // Especificar el paquete de WhatsApp para garantizar que se abra la aplicación
-        //intent_compartir.setPackage("com.whatsapp");
-        //intent_compartir.setPackage("com.facebook.katana");
-        intent_compartir.setPackage("org.telegram.messenger");
-
         // Iniciar el Intent para compartir
         startActivity(Intent.createChooser(intent_compartir, "Compartir archivo a través de:"));
-
-        Toast.makeText(getContext(), "Archivo Guardado en: " + rutaArchivo, Toast.LENGTH_SHORT).show();
     }
 
 }
