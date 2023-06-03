@@ -17,10 +17,10 @@ import androidx.appcompat.widget.Toolbar;
 public class menuConfiguracion extends AppCompatActivity {
 
 
-    private Toolbar toolbarConfiguracion;
-    private SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor editor;
-    private Switch switchColor;
+    protected Toolbar toolbarConfiguracion;
+    protected SharedPreferences sharedPreferences;
+    protected SharedPreferences.Editor editor;
+    protected Switch switchColor;
 
     @SuppressLint("MissingInflatedId")
     @Override

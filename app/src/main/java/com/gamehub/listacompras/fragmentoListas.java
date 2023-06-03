@@ -196,12 +196,12 @@ public class fragmentoListas extends Fragment {
         spinnerlistas = (Spinner) item.getActionView();
 
         //Para descargar
-        MenuItem menuItem = menu.findItem(R.id.menuImprimir);
+        MenuItem menuItem = menu.findItem(R.id.menuDescargar);
         menuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(@NonNull MenuItem item) {
                 int id = item.getItemId();
-                if(id == R.id.menuImprimir){
+                if(id == R.id.menuDescargar){
                     guardarArchivo();
                 }
                 return true;
@@ -307,6 +307,15 @@ public class fragmentoListas extends Fragment {
 
             MyAdapter adapter = new MyAdapter( getActivity(),articulos);
             mostrar_articulos.setAdapter(adapter);
+
+            mostrar_articulos.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                    MyAdapter adapter1 = (MyAdapter) mostrar_articulos.getItemAtPosition(position);
+                    Toast.makeText(getContext(),"",Toast.LENGTH_LONG).show();
+                    return true;
+                }
+            });
     }
 
 

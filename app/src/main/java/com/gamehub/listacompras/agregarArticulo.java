@@ -1,10 +1,12 @@
 package com.gamehub.listacompras;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -28,8 +30,10 @@ public class agregarArticulo extends AppCompatActivity {
     protected Spinner categorias;
     protected Spinner unidad;
     protected int valor;
-    Bundle bundle;
-    String valorLista;
+    protected Bundle bundle;
+    protected String valorLista;
+    protected AlertDialog.Builder alerta;
+    protected AlertDialog.Builder alerta2;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -99,39 +103,74 @@ public class agregarArticulo extends AppCompatActivity {
                 EditText agregar_precio = findViewById(R.id.id_precio_articulo);
                 EditText agregar_cantidad = findViewById(R.id.id_cantidad_articulo);
 
-                String nombre = agregar_nombre.getText().toString().trim();
-                Float precio = Float.valueOf(agregar_precio.getText().toString().trim());
-                int cantidad = Integer.parseInt(agregar_cantidad.getText().toString().trim());
 
-                String unidad_tabla = (String) unidad.getSelectedItem().toString().trim();
-                String categoria_tabla = (String) categorias.getSelectedItem().toString().trim();
+                alerta = new AlertDialog.Builder(agregarArticulo.this);
+                alerta2 = new AlertDialog.Builder(agregarArticulo.this);
 
-                AdminSQLite adminSQLite = new AdminSQLite(getBaseContext());
-                SQLiteDatabase db = adminSQLite.getWritableDatabase();
+                alerta.setMessage("¿Desea agregar el artículo?")
+                        .setCancelable(false)
+                        .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if(agregar_nombre.getText().length() !=0){
 
-                int id_lista = 0;
-                String tabla = "Lista";
-                String where = "Lista.Nombre=?";
-                String [] whereArgs = {valorLista.trim()};
-                String [] project = {"id_Lista"};
-                Cursor buscar = db.query(tabla,project,where,whereArgs,null,null,null);
-                while (buscar.moveToNext()){
-                    id_lista = Integer.parseInt(buscar.getString(buscar.getColumnIndexOrThrow("id_Lista")));
-                }
-                buscar.close();
-                
-                ContentValues values = new ContentValues();
-                values.put("Nombre", nombre);
-                values.put("Cantidad", cantidad);
-                values.put("Precio", precio);
-                values.put("Nombre_Unidad", unidad_tabla);
-                values.put("Nombre_Categoria", categoria_tabla);
-                values.put("id_Lista", id_lista);
-                db.insert("Articulo",null, values);
+                                    String nombre = agregar_nombre.getText().toString().trim();
+                                    Float precio = Float.valueOf(agregar_precio.getText().toString().trim());
+                                    int cantidad = Integer.parseInt(agregar_cantidad.getText().toString().trim());
 
-                db.close();
+                                    String unidad_tabla = (String) unidad.getSelectedItem().toString().trim();
+                                    String categoria_tabla = (String) categorias.getSelectedItem().toString().trim();
 
-                finish();
+                                    AdminSQLite adminSQLite = new AdminSQLite(getBaseContext());
+                                    SQLiteDatabase db = adminSQLite.getWritableDatabase();
+
+                                    int id_lista = 0;
+                                    String tabla = "Lista";
+                                    String where = "Lista.Nombre=?";
+                                    String [] whereArgs = {valorLista.trim()};
+                                    String [] project = {"id_Lista"};
+                                    Cursor buscar = db.query(tabla,project,where,whereArgs,null,null,null);
+                                    while (buscar.moveToNext()){
+                                        id_lista = Integer.parseInt(buscar.getString(buscar.getColumnIndexOrThrow("id_Lista")));
+                                    }
+                                    buscar.close();
+
+                                    ContentValues values = new ContentValues();
+                                    values.put("Nombre", nombre);
+                                    values.put("Cantidad", cantidad);
+                                    values.put("Precio", precio);
+                                    values.put("Nombre_Unidad", unidad_tabla);
+                                    values.put("Nombre_Categoria", categoria_tabla);
+                                    values.put("id_Lista", id_lista);
+
+                                    int verificar = (int) db.insert("Articulo",null, values);
+
+                                    if (verificar > 0){
+                                        Toast.makeText(getBaseContext(),"¡Artículo agregado con éxito!",Toast.LENGTH_LONG).show();
+                                    }else {
+                                        Toast.makeText(getBaseContext(), "¡Error al agregar el artículo!",Toast.LENGTH_LONG).show();
+                                    }
+                                    db.close();
+                                    finish();
+                                }else {
+                                    alerta2.setMessage("El campo nombre se encuentra vacío");
+                                    AlertDialog alert = alerta2.create();
+                                    alert.setTitle("¡Alerta!");
+                                    alert.show();
+                                }
+
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+                        AlertDialog alert = alerta.create();
+                        alert.setTitle("Aviso");
+                        alert.show();
+
                 return true;
 
             default:

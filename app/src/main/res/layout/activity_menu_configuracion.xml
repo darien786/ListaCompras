@@ -26,23 +26,30 @@
             app:title="Configuración"
             tools:ignore="MissingConstraints" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <Switch
+                android:id="@+id/switch_color"
+                style="@style/CustomSwitch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:minHeight="60dp"
+                android:text="Modo Oscuro"
+                android:textSize="20sp"
+                android:visibility="visible" />
+        </LinearLayout>
+
         <FrameLayout
             android:id="@+id/frameConfiguracion"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
-            <Switch
-                style="@style/CustomSwitch"
-                android:id="@+id/switch_color"
-                android:layout_width="317dp"
-                android:layout_height="78dp"
-                android:layout_marginStart="50dp"
-                android:layout_marginTop="90dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginBottom="10dp"
-                android:text="Modo Oscuro"
-                android:textSize="20sp"
-                android:visibility="visible" />
 
         </FrameLayout>
     </LinearLayout>

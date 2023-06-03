@@ -95,9 +95,9 @@
                     android:layout_marginHorizontal="20dp"
                     android:layout_weight="1"
                     android:ems="10"
+                    android:hint="0.0"
                     android:inputType="numberDecimal"
-                    android:minHeight="60dp"
-                    android:text="0.0" />
+                    android:minHeight="60dp" />
 
                 <EditText
                     android:id="@+id/id_cantidad_articulo"

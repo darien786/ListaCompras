@@ -34,7 +34,8 @@ public class MyAdapter extends ArrayAdapter<Articulo> {
 
         String datos = articulo.getCantidad() + " "
                 + articulo.getUnidad() + " = $"
-                + articulo.getPrecio() + " ";
+                + articulo.getPrecio() + "  "
+                + articulo.getCategoria();
 
         nombre.setText(articulo.getNombre());
         id_datos.setText(datos);

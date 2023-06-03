@@ -1,11 +1,13 @@
 package com.gamehub.listacompras;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -35,16 +37,16 @@ import java.util.List;
 
 public class menuListas extends AppCompatActivity {
 
-    private Toolbar tb1;
-    private FloatingActionButton btn_AgregarListas;
+    protected Toolbar tb1;
+    protected FloatingActionButton btn_AgregarListas;
 
     protected int foto = R.drawable.menus_de_listas;
     protected ListView listas;
-    public int itemSeleccionado = -1;
-    private Object object;
-    private String listaSeleccionada;
+    protected ActionMode mActionMode;
+    protected String listaSeleccionada;
+    protected AlertDialog.Builder alerta;
 
-    @SuppressLint("MissingInflatedId")
+    @SuppressLint({"MissingInflatedId", "RestrictedApi"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +56,8 @@ public class menuListas extends AppCompatActivity {
         listas = findViewById(R.id.id_listas);
         setSupportActionBar(tb1);
 
+        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         btn_AgregarListas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,26 +68,13 @@ public class menuListas extends AppCompatActivity {
 
         actualizarDatos();
         onClick();
-        tb1.setVisibility(View.VISIBLE);
     }
 
-    public void onClick(){
-        listas.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-        listas.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                listaSeleccionada = (String) parent.getItemAtPosition(position);
-                object = menuListas.this.startActionMode(acm);
-                tb1.setVisibility(View.GONE);
-                view.setSelected(true);
-                return true;
-            }
-        });
-    }
 
     private ActionMode.Callback acm = new ActionMode.Callback() {
         @Override
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            tb1.getMenu().clear();
             getMenuInflater().inflate(R.menu.menu_opciones_listas,menu);
             return true;
         }
@@ -98,30 +89,53 @@ public class menuListas extends AppCompatActivity {
             switch (item.getItemId()){
 
                 case R.id.eliminarOpcionesLista:
-                    AdminSQLite sql = new AdminSQLite(getBaseContext());
-                    SQLiteDatabase data = sql.getReadableDatabase();
 
-                    String tableName = "Lista";
-                    String whereClause = "Nombre=?";
-                    String[] whereArgs = {listaSeleccionada};
+                    alerta = new AlertDialog.Builder(menuListas.this);
 
-                    // Ejecuta la sentencia DELETE
-                    int eliminar = data.delete(tableName, whereClause, whereArgs);
+                    alerta.setMessage("¿Desea eliminar la lista?")
+                            .setCancelable(false)
+                            .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    AdminSQLite sql = new AdminSQLite(getBaseContext());
+                                    SQLiteDatabase data = sql.getReadableDatabase();
 
-                    if (eliminar > 0) {
-                        //Se elimino con éxito
-                        Toast.makeText(getBaseContext(),"¡Lista eliminada con éxito!",Toast.LENGTH_LONG).show();
-                        actualizarDatos();
-                    } else {
-                        // No se encontró la tupla o no se pudo eliminar por algún motivo
-                        Toast.makeText(getBaseContext(),"¡Error al eliminar!",Toast.LENGTH_LONG).show();
-                    }
+                                    String tableName = "Lista";
+                                    String whereClause = "Nombre=?";
+                                    String[] whereArgs = {listaSeleccionada.trim()};
+
+                                    // Ejecuta la sentencia DELETE
+                                    int eliminar = data.delete(tableName, whereClause, whereArgs);
+
+                                    if (eliminar > 0) {
+                                        //Se elimino con éxito
+                                        Toast.makeText(getBaseContext(),"¡Lista eliminada con éxito!",Toast.LENGTH_LONG).show();
+                                        actualizarDatos();
+                                    } else {
+                                        // No se encontró la tupla o no se pudo eliminar por algún motivo
+                                        Toast.makeText(getBaseContext(),"¡Error al eliminar la lista!",Toast.LENGTH_LONG).show();
+                                    }
+
+                                }
+                            })
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.cancel();
+                                }
+                            });
+                    AlertDialog alert = alerta.create();
+                    alert.setTitle("¡Alerta!");
+                    alert.show();
 
                     mode.finish();
                     return true;
 
                 case R.id.editarOpcionesLista:
                     Intent ventana = new Intent(menuListas.this,Editar_Lista.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("listaSeleccionada", listaSeleccionada);
+                    ventana.putExtras(bundle);
                     startActivity(ventana);
                     mode.finish();
                     return true;
@@ -141,22 +155,41 @@ public class menuListas extends AppCompatActivity {
                 default:
                     mode.finish();
             }
+
             return true;
         }
 
         @Override
         public void onDestroyActionMode(ActionMode mode) {
             tb1.setVisibility(View.VISIBLE);
-            mode.finish();
+            mActionMode = null;
         }
     };
 
+
+
+    public void onClick(){
+        listas.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        listas.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                listaSeleccionada = (String) parent.getItemAtPosition(position);
+                if(mActionMode != null){
+                    return false;
+                }
+                mActionMode = startActionMode(acm);
+                tb1.setVisibility(View.GONE);
+                return true;
+            }
+        });
+    }
 
     @Override
     protected void onResume() {
         super.onResume();
         actualizarDatos();
         onClick();
+        tb1.setVisibility(View.VISIBLE);
         }
 
     private void actualizarDatos() {
@@ -176,20 +209,20 @@ public class menuListas extends AppCompatActivity {
         }
         vistas.close();
 
-        MyAdapter adapter = new MyAdapter(this, R.layout.item_lista, lista);
+        MyAdapterListas adapter = new MyAdapterListas(this, R.layout.item_lista, lista);
         listas.setAdapter(adapter);
 
 
     }
 
 
-    protected class MyAdapter extends BaseAdapter {
+    protected class MyAdapterListas extends BaseAdapter {
 
         private Context context;
         private int layout;
         private ArrayList<String> names;
 
-        public MyAdapter(Context context, int layout, ArrayList<String> names) {
+        public MyAdapterListas(Context context, int layout, ArrayList<String> names) {
             this.context = context;
             this.layout = layout;
             this.names = names;
