@@ -485,7 +485,6 @@ public class fragmentoListas extends Fragment {
         } catch (IOException e){
             e.printStackTrace();
         }
-        Toast.makeText(getContext(), "Archivo Guardado en: " + archivo, Toast.LENGTH_SHORT).show();
     }
 
     public void compartirArchivo(){
