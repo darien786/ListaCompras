@@ -321,7 +321,6 @@ public class fragmentoListas extends Fragment {
 
     public void guardarArchivo(){
         String nombreLista = listaActual+".txt";
-        //File carpetaAlmacenamiento = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
         File carpetaAlmacenamiento = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
         File  archivo = new File(carpetaAlmacenamiento.getAbsolutePath(), nombreLista);
 
@@ -363,23 +362,26 @@ public class fragmentoListas extends Fragment {
     }
 
     public void compartirArchivo(){
-        String nombreLista = listaActual+".txt";
-        File carpetaAlmacenamiento = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
-        File  archivo = new File(carpetaAlmacenamiento.getAbsolutePath(), nombreLista);
+        String nombreLista = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)+"/"+listaActual+".txt";
+        File archivo = new File(nombreLista);
 
-        Uri fileUri = Uri.fromFile(archivo);
+        if(archivo.exists()){
+            Uri fileUri = Uri.fromFile(archivo);
 
-        Intent intent_compartir = new Intent(Intent.ACTION_SEND);
-        intent_compartir.setType("text/plain");
+            Intent intent_compartir = new Intent(Intent.ACTION_SEND);
+            intent_compartir.setType("text/plain");
 
-        // Añadir el archivo URI al Intent
-        intent_compartir.putExtra(Intent.EXTRA_STREAM, fileUri);
+            // Añadir el archivo URI al Intent
+            intent_compartir.putExtra(Intent.EXTRA_STREAM, fileUri);
 
-        // Agregar un texto adicional al mensaje (opcional)
-        intent_compartir.putExtra(Intent.EXTRA_TEXT, "¡Te comparto mi Lista de Compras!");
+            // Agregar un texto adicional al mensaje (opcional)
+            intent_compartir.putExtra(Intent.EXTRA_TEXT, "¡Te comparto mi Lista de Compras!");
 
-        // Iniciar el Intent para compartir
-        startActivity(Intent.createChooser(intent_compartir, "Compartir archivo a través de:"));
+            // Iniciar el Intent para compartir
+            startActivity(Intent.createChooser(intent_compartir, "Compartir archivo a través de:"));
+        }else{
+            Toast.makeText(getActivity(), "El archivo no existe", Toast.LENGTH_SHORT).show();
+        }
     }
 
 }
