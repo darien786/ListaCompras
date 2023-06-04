@@ -85,7 +85,7 @@ public class Editar_Categoria extends AppCompatActivity {
                                 }else {
                                     alerta2.setMessage("El campo nombre se encuentra vacío");
                                     AlertDialog alert = alerta2.create();
-                                    alert.setTitle("¡Aviso!");
+                                    alert.setTitle("¡Alerta!");
                                 }
 
                             }
@@ -97,7 +97,7 @@ public class Editar_Categoria extends AppCompatActivity {
                             }
                         });
                 AlertDialog alert = alerta.create();
-                alert.setTitle("Alerta");
+                alert.setTitle("Aviso");
                 alert.show();
 
                 return true;

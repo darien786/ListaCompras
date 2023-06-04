@@ -137,7 +137,7 @@ public class menuCategorias extends AppCompatActivity {
                                 }
                             });
                     AlertDialog alert = alerta.create();
-                    alert.setTitle("¡Alerta!");
+                    alert.setTitle("Aviso");
                     alert.show();
 
                     mode.finish();
