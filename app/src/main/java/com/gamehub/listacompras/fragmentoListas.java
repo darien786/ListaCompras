@@ -448,7 +448,7 @@ public class fragmentoListas extends Fragment {
     public void guardarArchivo(){
         String nombreLista = listaActual+".txt";
         File carpetaAlmacenamiento = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
-        File  archivo = new File(carpetaAlmacenamiento.getAbsolutePath(), nombreLista);
+        File  archivo = new File(nombreLista);
 
         StringBuilder datos = new StringBuilder();
         int itemCount = mostrar_articulos.getAdapter().getCount();
@@ -485,29 +485,41 @@ public class fragmentoListas extends Fragment {
         } catch (IOException e){
             e.printStackTrace();
         }
+        Toast.makeText(getContext(), "Archivo Guardado en: " + archivo, Toast.LENGTH_SHORT).show();
     }
 
     public void compartirArchivo(){
-        String nombreLista = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)+"/"+listaActual+".txt";
-        File archivo = new File(nombreLista);
+        StringBuilder datos = new StringBuilder();
+        int itemCount = mostrar_articulos.getAdapter().getCount();
 
-        if(archivo.exists()){
-            Uri fileUri = Uri.fromFile(archivo);
+        datos.append("¡Te comparto mi lista!"+"\n"+"\n");
+        datos.append(listaActual).append("\n");
+        int c=1;
 
-            Intent intent_compartir = new Intent(Intent.ACTION_SEND);
-            intent_compartir.setType("text/plain");
+        for (int i = 0; i < itemCount; i++) {
+            Object item = mostrar_articulos.getAdapter().getItem(i);
+            if (item instanceof Articulo) {
+                Articulo articulo = (Articulo) item;
+                String nombre = articulo.getNombre();
+                String cantidad = articulo.getCantidad();
+                String unidad = articulo.getUnidad();
+                String precio = articulo.getPrecio();
+                String categoria = articulo.getCategoria();
 
-            // Añadir el archivo URI al Intent
-            intent_compartir.putExtra(Intent.EXTRA_STREAM, fileUri);
-
-            // Agregar un texto adicional al mensaje (opcional)
-            intent_compartir.putExtra(Intent.EXTRA_TEXT, "¡Te comparto mi Lista de Compras!");
-
-            // Iniciar el Intent para compartir
-            startActivity(Intent.createChooser(intent_compartir, "Compartir archivo a través de:"));
-        }else{
-            Toast.makeText(getActivity(), "El archivo no existe", Toast.LENGTH_SHORT).show();
+                datos.append("\n"+"Articulo "+ c++).append("\n"+"    Nombre: "+nombre).append("\n"+"    Categoría: "+categoria).append("\n"+"    Cantidad: "+cantidad+" "+unidad).append("\n"+"    Precio: "+"$"+precio).append("\n");
+            }
         }
+
+        datos.append("\n"+"\n"+"\n").append("Total de la lista:  $" +totalTxt);
+
+        Intent intent_compartir = new Intent(Intent.ACTION_SEND);
+        intent_compartir.setType("text/plain");
+
+        // Agregar un texto adicional al mensaje (opcional)
+        intent_compartir.putExtra(Intent.EXTRA_TEXT, datos.toString());
+
+        // Iniciar el Intent para compartir
+        startActivity(Intent.createChooser(intent_compartir, "Compartir archivo a través de:"));
     }
 
 }
