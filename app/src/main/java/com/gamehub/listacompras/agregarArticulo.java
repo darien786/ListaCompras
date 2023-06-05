@@ -118,6 +118,10 @@ public class agregarArticulo extends AppCompatActivity {
                                     Float precio = Float.valueOf(agregar_precio.getText().toString().trim());
                                     int cantidad = Integer.parseInt(agregar_cantidad.getText().toString().trim());
 
+                                    if(precio.toString().equals("")){
+                                        precio= Float.valueOf(0.0F);
+                                    }
+
                                     String unidad_tabla = (String) unidad.getSelectedItem().toString().trim();
                                     String categoria_tabla = (String) categorias.getSelectedItem().toString().trim();
 

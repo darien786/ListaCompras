@@ -448,7 +448,7 @@ public class fragmentoListas extends Fragment {
     public void guardarArchivo(){
         String nombreLista = listaActual+".txt";
         File carpetaAlmacenamiento = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
-        File  archivo = new File(carpetaAlmacenamiento, nombreLista);
+        File  archivo = new File(nombreLista);
 
         StringBuilder datos = new StringBuilder();
         int itemCount = mostrar_articulos.getAdapter().getCount();
@@ -520,6 +520,7 @@ public class fragmentoListas extends Fragment {
         // Iniciar el Intent para compartir
         startActivity(Intent.createChooser(intent_compartir, "Compartir archivo a través de:"));
     }
+
 }
 
 
